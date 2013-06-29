@@ -72,7 +72,23 @@ static OSStatus ReadFileData(void *							inRefCon,
     AudioStreamBasicDescription streamFormat;
     UInt32 size = sizeof(streamFormat);
     RDThrowIfError(AudioUnitGetProperty(_outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &streamFormat, &size), @"read output stream format");
+#if 1
     RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(streamFormat), &streamFormat), @"set file client format suitable for output");
+#else
+    int nChannels = 1;
+    AudioStreamBasicDescription simpleStreamFormat = {
+        .mSampleRate = streamFormat.mSampleRate,
+        .mFormatID = kAudioFormatLinearPCM,
+        .mFormatFlags = (kAudioFormatFlagsCanonical/* | kAudioFormatFlagIsNonInterleaved*/),
+        .mChannelsPerFrame = nChannels,
+        .mFramesPerPacket = 1,
+        .mBitsPerChannel = 8 * sizeof(AudioUnitSampleType),
+        .mBytesPerPacket = nChannels * sizeof(AudioUnitSampleType),
+        .mBytesPerFrame = nChannels * sizeof(AudioUnitSampleType)
+    };
+    RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(simpleStreamFormat), &simpleStreamFormat), @"set file client format suitable for output");
+    RDThrowIfError(AudioUnitSetProperty(_outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &simpleStreamFormat, sizeof(simpleStreamFormat)), @"");
+#endif
 
     // Setup data-providing callback.
     AURenderCallbackStruct callbackStruct;
