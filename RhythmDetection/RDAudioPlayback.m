@@ -26,6 +26,54 @@ static OSStatus ReadFileData(void *							inRefCon,
     return err;
 }
 
+//vsapsai: I've tried to silence buffer 0 - left channel is silent, buffer 1 -
+// right channel is silent.
+static OSStatus SilenceBuffer(void *							inRefCon,
+                              AudioUnitRenderActionFlags *      ioActionFlags,
+                              const AudioTimeStamp *			inTimeStamp,
+                              UInt32							inBusNumber,
+                              UInt32							inNumberFrames,
+                              AudioBufferList *                 ioData)
+{
+    RDAudioPlayback *self = (__bridge RDAudioPlayback *)inRefCon;
+    ExtAudioFileRef audioFileRef = self.audioFileRef;
+    OSStatus err = ExtAudioFileRead(audioFileRef, &inNumberFrames, ioData);
+    if (noErr == err)
+    {
+        memset(ioData->mBuffers[0].mData, 0, ioData->mBuffers[0].mDataByteSize);
+    }
+    return err;
+}
+
+static OSStatus AbsValue(void *							inRefCon,
+                         AudioUnitRenderActionFlags *	ioActionFlags,
+                         const AudioTimeStamp *			inTimeStamp,
+                         UInt32							inBusNumber,
+                         UInt32							inNumberFrames,
+                         AudioBufferList *				ioData)
+{
+    RDAudioPlayback *self = (__bridge RDAudioPlayback *)inRefCon;
+    ExtAudioFileRef audioFileRef = self.audioFileRef;
+    OSStatus err = ExtAudioFileRead(audioFileRef, &inNumberFrames, ioData);
+    if (noErr == err)
+    {
+        for (int bufferIndex = 0; bufferIndex < ioData->mNumberBuffers; bufferIndex++)
+        {
+            AudioSampleType *samples = ioData->mBuffers[bufferIndex].mData;
+            NSUInteger samplesCount = ioData->mBuffers[bufferIndex].mDataByteSize / sizeof(AudioSampleType);
+            for (NSUInteger i = 0; i < samplesCount; i++)
+            {
+                // Sounds awful, but can recognize.
+                samples[i] = fabsf(samples[i]);
+
+                // Cannot hear the difference.
+                //samples[i] = -samples[i];
+            }
+        }
+    }
+    return err;
+}
+
 @implementation RDAudioPlayback
 
 @synthesize audioFileRef = _audioFileRef;
