@@ -57,7 +57,7 @@ const CGFloat kStep = 2.0;
     // Draw values.
     NSBezierPath *path = [NSBezierPath bezierPath];
     RDAudioData *data = self.audioData;
-    NSUInteger startIndex = [self.startIndex unsignedIntegerValue];
+    NSUInteger startIndex = (nil != self.startIndex) ? [self.startIndex unsignedIntegerValue] : NSNotFound;
     if (startIndex != NSNotFound)
     {
         NSUInteger nonZeroLength = (data.length - startIndex);
