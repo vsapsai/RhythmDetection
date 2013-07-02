@@ -8,9 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class RDAudioDataView;
+
 @interface RDAppDelegate : NSObject <NSApplicationDelegate>
 
-@property (assign) IBOutlet NSWindow *window;
+@property (weak, nonatomic) IBOutlet NSWindow *window;
+@property (weak, nonatomic) IBOutlet RDAudioDataView *audioDataView;
 
 - (IBAction)start:(id)sender;
 - (IBAction)stop:(id)sender;
