@@ -11,6 +11,10 @@
 
 @interface RDAudioPlayback()
 @property (assign, nonatomic) ExtAudioFileRef audioFileRef;
+@property (assign, nonatomic) SInt64 framesCount;
+@property (assign, nonatomic) SInt64 frameIndex;
+
+- (void)didPlayFrames:(UInt32)framesCount;
 @end
 
 static OSStatus ReadFileData(void *							inRefCon,
@@ -23,6 +27,10 @@ static OSStatus ReadFileData(void *							inRefCon,
     RDAudioPlayback *self = (__bridge RDAudioPlayback *)inRefCon;
     ExtAudioFileRef audioFileRef = self.audioFileRef;
     OSStatus err = ExtAudioFileRead(audioFileRef, &inNumberFrames, ioData);
+    if (noErr == err)
+    {
+        [self didPlayFrames:inNumberFrames];
+    }
     return err;
 }
 
@@ -76,13 +84,13 @@ static OSStatus AbsValue(void *							inRefCon,
 
 @implementation RDAudioPlayback
 
-@synthesize audioFileRef = _audioFileRef;
-
 - (id)initWithURL:(NSURL *)url
 {
     self = [super init];
     if (nil != self)
     {
+        self.frameIndex = 0;
+        self.framesCount = 0;
         _audioFileRef = NULL;
         RDThrowIfError(ExtAudioFileOpenURL((__bridge CFURLRef)url, &_audioFileRef), @"open file %@", url);
         AudioStreamBasicDescription fileFormat;
@@ -93,6 +101,7 @@ static OSStatus AbsValue(void *							inRefCon,
         SInt64 framesCount = 0;
         size = sizeof(framesCount);
         RDThrowIfError(ExtAudioFileGetProperty(_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &size, &framesCount), @"read frames count");
+        self.framesCount = framesCount;
 
         Float64 secondsDuration = framesCount / fileFormat.mSampleRate;
         NSLog(@"seconds = %f", secondsDuration);
@@ -170,6 +179,18 @@ static OSStatus AbsValue(void *							inRefCon,
 - (void)stop
 {
     RDThrowIfError(AUGraphStop(_graph), @"stop graph");
+}
+
+#pragma mark -
+
+- (void)didPlayFrames:(UInt32)framesCount
+{
+    self.frameIndex += framesCount;
+}
+
+- (float)currentProgress
+{
+    return (float)self.frameIndex / self.framesCount;
 }
 
 @end
