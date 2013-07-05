@@ -18,6 +18,7 @@
 		F719CAC9177A3D2F00CAF663 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CAC8177A3D2F00CAF663 /* AudioToolbox.framework */; };
 		F719CACC177A3FBD00CAF663 /* RDAudioException.m in Sources */ = {isa = PBXBuildFile; fileRef = F719CACB177A3FBD00CAF663 /* RDAudioException.m */; };
 		F719CACE177BB3D400CAF663 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CACD177BB3D400CAF663 /* AudioUnit.framework */; };
+		F789133A1787780900FAE59F /* RDProcessingController.m in Sources */ = {isa = PBXBuildFile; fileRef = F78913391787780900FAE59F /* RDProcessingController.m */; };
 		F7981F75178242A900C71FAD /* RDAudioData.m in Sources */ = {isa = PBXBuildFile; fileRef = F7981F74178242A900C71FAD /* RDAudioData.m */; };
 		F7981F781782480D00C71FAD /* RDAudioDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7981F771782480D00C71FAD /* RDAudioDataView.m */; };
 		F7CC63AC177FA92C002EF3A6 /* RDAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC63AB177FA92C002EF3A6 /* RDAudioFile.m */; };
@@ -45,6 +46,8 @@
 		F719CACA177A3FBD00CAF663 /* RDAudioException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAudioException.h; sourceTree = "<group>"; };
 		F719CACB177A3FBD00CAF663 /* RDAudioException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAudioException.m; sourceTree = "<group>"; };
 		F719CACD177BB3D400CAF663 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		F78913381787780900FAE59F /* RDProcessingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDProcessingController.h; sourceTree = "<group>"; };
+		F78913391787780900FAE59F /* RDProcessingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDProcessingController.m; sourceTree = "<group>"; };
 		F7981F73178242A900C71FAD /* RDAudioData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAudioData.h; sourceTree = "<group>"; };
 		F7981F74178242A900C71FAD /* RDAudioData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAudioData.m; sourceTree = "<group>"; };
 		F7981F761782480C00C71FAD /* RDAudioDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAudioDataView.h; sourceTree = "<group>"; };
@@ -110,6 +113,8 @@
 			children = (
 				F719CABA177A390900CAF663 /* RDAppDelegate.h */,
 				F719CABB177A390900CAF663 /* RDAppDelegate.m */,
+				F78913381787780900FAE59F /* RDProcessingController.h */,
+				F78913391787780900FAE59F /* RDProcessingController.m */,
 				F719CACA177A3FBD00CAF663 /* RDAudioException.h */,
 				F719CACB177A3FBD00CAF663 /* RDAudioException.m */,
 				F719CAC5177A3AC000CAF663 /* RDAudioPlayback.h */,
@@ -213,6 +218,7 @@
 				F7981F75178242A900C71FAD /* RDAudioData.m in Sources */,
 				F7981F781782480D00C71FAD /* RDAudioDataView.m in Sources */,
 				F701BB231785F64400EB2975 /* RDBufferList.m in Sources */,
+				F789133A1787780900FAE59F /* RDProcessingController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

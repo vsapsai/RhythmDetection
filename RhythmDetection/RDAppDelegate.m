@@ -7,15 +7,7 @@
 //
 
 #import "RDAppDelegate.h"
-#import <AudioToolbox/AudioToolbox.h>
-#import "RDAudioPlayback.h"
-#import "RDAudioFile.h"
-#import "RDAudioData.h"
-#import "RDAudioDataView.h"
-
-@interface RDAppDelegate()
-@property (strong, nonatomic) RDAudioPlayback *audioPlayback;
-@end
+#import "RDProcessingController.h"
 
 @implementation RDAppDelegate
 
@@ -24,26 +16,7 @@
     NSString *filePath = @"~/Music/iTunes/iTunes Media/Music/The Rolling Stones/Hot Rocks 1964-1971/1-09 Paint It Black.m4a";
     filePath = [filePath stringByExpandingTildeInPath];
     NSURL *fileUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
-    self.audioPlayback = [[RDAudioPlayback alloc] initWithURL:fileUrl];
-    RDAudioFile *file = [[RDAudioFile alloc] initWithURL:fileUrl];
-    RDAudioData *audioData = [[RDAudioData alloc] initWithData:[file PCMRepresentation]];
-    self.audioDataView.audioData = audioData;
-    [NSTimer scheduledTimerWithTimeInterval:(1.0 / 30) target:self selector:@selector(updatePlaybackProgress:) userInfo:nil repeats:YES];
-}
-
-- (IBAction)start:(id)sender
-{
-    [self.audioPlayback start];
-}
-
-- (IBAction)stop:(id)sender
-{
-    [self.audioPlayback stop];
-}
-
-- (void)updatePlaybackProgress:(NSTimer *)timer
-{
-    [self.playbackProgressSlider setFloatValue:self.audioPlayback.currentProgress];
+    [self.processingController loadFileAtURL:fileUrl];
 }
 
 @end
