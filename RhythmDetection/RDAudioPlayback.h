@@ -9,13 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <AudioToolbox/AudioToolbox.h>
 
+@class RDAudioFile;
+
 @interface RDAudioPlayback : NSObject
 {
 @private
     AUGraph _graph;
 	AudioUnit _outputUnit;
 }
-- (id)initWithURL:(NSURL *)url;
+- (id)initWithAudioFile:(RDAudioFile *)audioFile;
 
 - (void)start;
 - (void)stop;

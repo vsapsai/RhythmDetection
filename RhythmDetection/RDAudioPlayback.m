@@ -83,14 +83,13 @@ static OSStatus AbsValue(void *							inRefCon,
 
 @implementation RDAudioPlayback
 
-- (id)initWithURL:(NSURL *)url
+- (id)initWithAudioFile:(RDAudioFile *)audioFile
 {
     self = [super init];
     if (nil != self)
     {
         [self setupGraph];
         [self setupConverter];
-        RDAudioFile *audioFile = [[RDAudioFile alloc] initWithURL:url];
         self.fileBufferList = [self readAudioFileContent:audioFile];
         self.frameIndex = 0;
         self.framesCount = audioFile.framesCount;
