@@ -9,6 +9,7 @@
 #import "RDAudioFile.h"
 #import <AudioToolbox/AudioToolbox.h>
 #import "RDAudioException.h"
+#import "RDBufferList.h"
 
 @interface RDAudioFile()
 {
@@ -39,12 +40,50 @@
     }
 }
 
-- (NSData *)PCMRepresentation
+#pragma mark -
+
+- (AudioStreamBasicDescription)fileFormat
 {
-    NSAssert(NULL != _audioFileRef, @"ExtAudioFileRef is absent");
     AudioStreamBasicDescription fileFormat;
     UInt32 size = sizeof(fileFormat);
     RDThrowIfError(ExtAudioFileGetProperty(_audioFileRef, kExtAudioFileProperty_FileDataFormat, &size, &fileFormat), @"read file format");
+    return fileFormat;
+}
+
+- (Float64)sampleRate
+{
+    return [self fileFormat].mSampleRate;
+}
+
+- (SInt64)framesCount
+{
+    SInt64 framesCount = 0;
+    UInt32 size = sizeof(framesCount);
+    RDThrowIfError(ExtAudioFileGetProperty(_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &size, &framesCount), @"read frames count");
+    return framesCount;
+}
+
+- (NSTimeInterval)duration
+{
+    return [self framesCount] / [self sampleRate];
+}
+
+- (void)readDataInFormat:(AudioStreamBasicDescription)dataFormat inBufferList:(RDBufferList *)bufferList
+{
+    RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(dataFormat), &dataFormat), @"set client data format for file");
+    SInt64 framesCount64 = [self framesCount];
+    NSAssert(framesCount64 <= UINT32_MAX, @"Data size overflowing 32 bits isn't supported");
+    UInt32 framesCount = (UInt32)framesCount64;
+    UInt32 readFramesCount = framesCount;
+    RDThrowIfError(ExtAudioFileRead(_audioFileRef, &readFramesCount, [bufferList audioBufferList]), @"read file data");
+    NSAssert(readFramesCount == framesCount, @"Not all file content is read");
+}
+
+//TODO: use readDataInFormat:...
+- (NSData *)PCMRepresentation
+{
+    NSAssert(NULL != _audioFileRef, @"ExtAudioFileRef is absent");
+    AudioStreamBasicDescription fileFormat = [self fileFormat];
 
     UInt32 nChannels = 1;
     AudioStreamBasicDescription monoPCMFormat = {
@@ -57,16 +96,14 @@
         .mBytesPerPacket = nChannels * sizeof(AudioUnitSampleType),
         .mBytesPerFrame = nChannels * sizeof(AudioUnitSampleType)
     };
-    RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(monoPCMFormat), &monoPCMFormat), @"set suitable client data format");
+    RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(monoPCMFormat), &monoPCMFormat), @"set client data format for file");
 
-    SInt64 framesCount = 0;
-    size = sizeof(framesCount);
-    RDThrowIfError(ExtAudioFileGetProperty(_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &size, &framesCount), @"read frames count");
+    SInt64 framesCount = [self framesCount];
     AudioBufferList bufferList;
     bufferList.mNumberBuffers = 1;
     bufferList.mBuffers[0].mNumberChannels = nChannels;
     SInt64 samplesCount = framesCount * nChannels;
-    NSAssert(samplesCount <= (1LL << 32), @"Data size overflowing 32 bits isn't supported");
+    NSAssert(samplesCount <= UINT32_MAX, @"Data size overflowing 32 bits isn't supported");
     UInt32 framesCount32 = (UInt32)framesCount;
     UInt32 samplesCount32 = (UInt32)samplesCount;
     bufferList.mBuffers[0].mData = calloc(samplesCount32, sizeof(AudioSampleType));

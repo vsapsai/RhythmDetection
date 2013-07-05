@@ -12,9 +12,7 @@
 @interface RDAudioPlayback : NSObject
 {
 @private
-    ExtAudioFileRef _audioFileRef;
     AUGraph _graph;
-    AUNode _outputNode;
 	AudioUnit _outputUnit;
 }
 - (id)initWithURL:(NSURL *)url;

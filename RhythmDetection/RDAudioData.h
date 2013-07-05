@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
 
+// RDAudioData is intended to be used for audio signal processing.
 @interface RDAudioData : NSObject
 // data contains buffer of AudioSampleType.
 - (id)initWithData:(NSData *)data;

@@ -8,13 +8,19 @@
 
 #import "RDAudioPlayback.h"
 #import "RDAudioException.h"
+#import "RDAudioFile.h"
+#import "RDBufferList.h"
+
+//TODO: clarify difference between AudioSampleType and AudioUnitSampleType
 
 @interface RDAudioPlayback()
-@property (assign, nonatomic) ExtAudioFileRef audioFileRef;
+@property (strong, nonatomic) RDBufferList *fileBufferList;
+@property (assign, nonatomic) AudioConverterRef audioConverterRef;
+
 @property (assign, nonatomic) SInt64 framesCount;
 @property (assign, nonatomic) SInt64 frameIndex;
 
-- (void)didPlayFrames:(UInt32)framesCount;
+- (OSStatus)readDataOfLength:(UInt32)framesCount inBufferList:(AudioBufferList *)bufferList;
 @end
 
 static OSStatus ReadFileData(void *							inRefCon,
@@ -25,12 +31,7 @@ static OSStatus ReadFileData(void *							inRefCon,
                              AudioBufferList *				ioData)
 {
     RDAudioPlayback *self = (__bridge RDAudioPlayback *)inRefCon;
-    ExtAudioFileRef audioFileRef = self.audioFileRef;
-    OSStatus err = ExtAudioFileRead(audioFileRef, &inNumberFrames, ioData);
-    if (noErr == err)
-    {
-        [self didPlayFrames:inNumberFrames];
-    }
+    OSStatus err = [self readDataOfLength:inNumberFrames inBufferList:ioData];
     return err;
 }
 
@@ -44,8 +45,7 @@ static OSStatus SilenceBuffer(void *							inRefCon,
                               AudioBufferList *                 ioData)
 {
     RDAudioPlayback *self = (__bridge RDAudioPlayback *)inRefCon;
-    ExtAudioFileRef audioFileRef = self.audioFileRef;
-    OSStatus err = ExtAudioFileRead(audioFileRef, &inNumberFrames, ioData);
+    OSStatus err = [self readDataOfLength:inNumberFrames inBufferList:ioData];
     if (noErr == err)
     {
         memset(ioData->mBuffers[0].mData, 0, ioData->mBuffers[0].mDataByteSize);
@@ -61,8 +61,7 @@ static OSStatus AbsValue(void *							inRefCon,
                          AudioBufferList *				ioData)
 {
     RDAudioPlayback *self = (__bridge RDAudioPlayback *)inRefCon;
-    ExtAudioFileRef audioFileRef = self.audioFileRef;
-    OSStatus err = ExtAudioFileRead(audioFileRef, &inNumberFrames, ioData);
+    OSStatus err = [self readDataOfLength:inNumberFrames inBufferList:ioData];
     if (noErr == err)
     {
         for (int bufferIndex = 0; bufferIndex < ioData->mNumberBuffers; bufferIndex++)
@@ -89,25 +88,12 @@ static OSStatus AbsValue(void *							inRefCon,
     self = [super init];
     if (nil != self)
     {
-        self.frameIndex = 0;
-        self.framesCount = 0;
-        _audioFileRef = NULL;
-        RDThrowIfError(ExtAudioFileOpenURL((__bridge CFURLRef)url, &_audioFileRef), @"open file %@", url);
-        AudioStreamBasicDescription fileFormat;
-        UInt32 size = sizeof(fileFormat);
-        RDThrowIfError(ExtAudioFileGetProperty(_audioFileRef, kExtAudioFileProperty_FileDataFormat, &size, &fileFormat), @"read file format");
-
         [self setupGraph];
-        SInt64 framesCount = 0;
-        size = sizeof(framesCount);
-        RDThrowIfError(ExtAudioFileGetProperty(_audioFileRef, kExtAudioFileProperty_FileLengthFrames, &size, &framesCount), @"read frames count");
-        self.framesCount = framesCount;
-
-        Float64 secondsDuration = framesCount / fileFormat.mSampleRate;
-        NSLog(@"seconds = %f", secondsDuration);
-        NSInteger minutes = (long)(secondsDuration / 60);
-        NSInteger seconds = (long)(secondsDuration - 60 * minutes);
-        NSLog(@"duration = %ld:%02ld", (long)minutes, (long)seconds);
+        [self setupConverter];
+        RDAudioFile *audioFile = [[RDAudioFile alloc] initWithURL:url];
+        self.fileBufferList = [self readAudioFileContent:audioFile];
+        self.frameIndex = 0;
+        self.framesCount = audioFile.framesCount;
     }
     return self;
 }
@@ -123,49 +109,76 @@ static OSStatus AbsValue(void *							inRefCon,
 	outDesc.componentManufacturer = kAudioUnitManufacturer_Apple;
 	outDesc.componentFlags = 0;
 	outDesc.componentFlagsMask = 0;
-    RDThrowIfError(AUGraphAddNode(_graph, &outDesc, &_outputNode), @"create output node");
-    RDThrowIfError(AUGraphNodeInfo(_graph, _outputNode, NULL, &_outputUnit), @"get output unit");
-    // Make file format compatible with output stream format.
-    AudioStreamBasicDescription streamFormat;
-    UInt32 size = sizeof(streamFormat);
-    RDThrowIfError(AudioUnitGetProperty(_outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &streamFormat, &size), @"read output stream format");
-#if 1
-    RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(streamFormat), &streamFormat), @"set file client format suitable for output");
-#else
-    int nChannels = 1;
-    AudioStreamBasicDescription simpleStreamFormat = {
-        .mSampleRate = streamFormat.mSampleRate,
-        .mFormatID = kAudioFormatLinearPCM,
-        .mFormatFlags = (kAudioFormatFlagsCanonical/* | kAudioFormatFlagIsNonInterleaved*/),
-        .mChannelsPerFrame = nChannels,
-        .mFramesPerPacket = 1,
-        .mBitsPerChannel = 8 * sizeof(AudioUnitSampleType),
-        .mBytesPerPacket = nChannels * sizeof(AudioUnitSampleType),
-        .mBytesPerFrame = nChannels * sizeof(AudioUnitSampleType)
-    };
-    RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(simpleStreamFormat), &simpleStreamFormat), @"set file client format suitable for output");
-    RDThrowIfError(AudioUnitSetProperty(_outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &simpleStreamFormat, sizeof(simpleStreamFormat)), @"");
-#endif
+    AUNode outputNode;
+    RDThrowIfError(AUGraphAddNode(_graph, &outDesc, &outputNode), @"create output node");
+    RDThrowIfError(AUGraphNodeInfo(_graph, outputNode, NULL, &_outputUnit), @"get output unit");
 
     // Setup data-providing callback.
     AURenderCallbackStruct callbackStruct;
     callbackStruct.inputProc = ReadFileData;
     callbackStruct.inputProcRefCon = (__bridge void *)self;
-    RDThrowIfError(AUGraphSetNodeInputCallback(_graph, _outputNode, 0, &callbackStruct), @"set input callback");
+    RDThrowIfError(AUGraphSetNodeInputCallback(_graph, outputNode, 0, &callbackStruct), @"set input callback");
     //RDThrowIfError(AudioUnitSetProperty(_outputUnit, kAudioUnitProperty_SetRenderCallback, kAudioUnitScope_Input, 0, &callbackStruct, sizeof(callbackStruct)), @"set render callback");
 
     RDThrowIfError(AUGraphInitialize(_graph), @"initialize graph");
 }
 
+- (void)setupConverter
+{
+    NSAssert(NULL != _graph, @"Need to setupGraph before setting up converter");
+    AudioConverterRef audioConverterRef = NULL;
+    AudioStreamBasicDescription outputFormat = [self outputDataFormat];
+    AudioStreamBasicDescription internalBufferFormat = [self internalBufferDataFormat];
+    RDThrowIfError(AudioConverterNew(&internalBufferFormat, &outputFormat, &audioConverterRef), @"create audio converter");
+    self.audioConverterRef = audioConverterRef;
+}
+
+- (AudioStreamBasicDescription)outputDataFormat
+{
+    NSAssert(NULL != _graph, @"Need to setupGraph before getting output data format");
+    AudioStreamBasicDescription outputFormat;
+    UInt32 size = sizeof(outputFormat);
+    RDThrowIfError(AudioUnitGetProperty(_outputUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &outputFormat, &size), @"read output stream format");
+    return outputFormat;
+}
+
+- (AudioStreamBasicDescription)internalBufferDataFormat
+{
+    AudioStreamBasicDescription internalBufferFormat = {
+        .mSampleRate = [self outputDataFormat].mSampleRate,
+        .mFormatID = kAudioFormatLinearPCM,
+        .mFormatFlags = (kAudioFormatFlagsCanonical | kAudioFormatFlagIsNonInterleaved),
+        .mChannelsPerFrame = 2,
+        .mFramesPerPacket = 1,
+        .mBitsPerChannel = 8 * sizeof(AudioUnitSampleType),
+        .mBytesPerPacket = sizeof(AudioUnitSampleType),
+        .mBytesPerFrame = sizeof(AudioUnitSampleType)
+    };
+    return internalBufferFormat;
+}
+
+- (RDBufferList *)readAudioFileContent:(RDAudioFile *)audioFile
+{
+    SInt64 framesCount = [audioFile framesCount];
+    SInt64 bufferSize = framesCount * sizeof(AudioUnitSampleType);
+    RDBufferList *bufferList = [[RDBufferList alloc] initWithBufferSize:bufferSize count:2];
+    [audioFile readDataInFormat:[self internalBufferDataFormat] inBufferList:bufferList];
+    return bufferList;
+}
+
 - (void)dealloc
 {
-    if (NULL != _audioFileRef)
+    if (NULL != _graph)
     {
         RDThrowIfError(AUGraphUninitialize(_graph), @"uninitialize graph");
         RDThrowIfError(AUGraphClose(_graph), @"close graph");
         RDThrowIfError(DisposeAUGraph(_graph), @"dispose graph");
-        RDThrowIfError(ExtAudioFileDispose(_audioFileRef), @"dispose file");
-        _audioFileRef = NULL;
+        _graph = NULL;
+    }
+    if (NULL != _audioConverterRef)
+    {
+        RDThrowIfError(AudioConverterDispose(_audioConverterRef), @"dispose converter");
+        _audioConverterRef = NULL;
     }
 }
 
@@ -182,6 +195,23 @@ static OSStatus AbsValue(void *							inRefCon,
 }
 
 #pragma mark -
+
+- (OSStatus)readDataOfLength:(UInt32)framesCount inBufferList:(AudioBufferList *)bufferList
+{
+    OSStatus error = noErr;
+    @autoreleasepool
+    {
+        SInt64 frameIndex = self.frameIndex;
+        NSUInteger dataIndex = frameIndex * sizeof(AudioUnitSampleType);
+        AudioBufferList *internalBufferList = [self.fileBufferList audioBufferListWithRange:NSMakeRange(dataIndex, framesCount * sizeof(AudioUnitSampleType))];
+        error = AudioConverterConvertComplexBuffer(_audioConverterRef, framesCount, internalBufferList, bufferList);
+    }
+    if (noErr == error)
+    {
+        [self didPlayFrames:framesCount];
+    }
+    return error;
+}
 
 - (void)didPlayFrames:(UInt32)framesCount
 {

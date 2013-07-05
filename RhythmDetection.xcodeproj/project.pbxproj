@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F701BB231785F64400EB2975 /* RDBufferList.m in Sources */ = {isa = PBXBuildFile; fileRef = F701BB221785F64400EB2975 /* RDBufferList.m */; };
 		F719CAA9177A390900CAF663 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CAA8177A390900CAF663 /* Cocoa.framework */; };
 		F719CAB3177A390900CAF663 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F719CAB1177A390900CAF663 /* InfoPlist.strings */; };
 		F719CAB5177A390900CAF663 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F719CAB4177A390900CAF663 /* main.m */; };
@@ -23,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F701BB211785F64400EB2975 /* RDBufferList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDBufferList.h; sourceTree = "<group>"; };
+		F701BB221785F64400EB2975 /* RDBufferList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDBufferList.m; sourceTree = "<group>"; };
 		F719CAA5177A390900CAF663 /* RhythmDetection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RhythmDetection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F719CAA8177A390900CAF663 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F719CAAB177A390900CAF663 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -117,6 +120,8 @@
 				F7981F74178242A900C71FAD /* RDAudioData.m */,
 				F7981F761782480C00C71FAD /* RDAudioDataView.h */,
 				F7981F771782480D00C71FAD /* RDAudioDataView.m */,
+				F701BB211785F64400EB2975 /* RDBufferList.h */,
+				F701BB221785F64400EB2975 /* RDBufferList.m */,
 				F719CABD177A390900CAF663 /* MainMenu.xib */,
 				F719CAAF177A390900CAF663 /* Supporting Files */,
 			);
@@ -207,6 +212,7 @@
 				F7CC63AC177FA92C002EF3A6 /* RDAudioFile.m in Sources */,
 				F7981F75178242A900C71FAD /* RDAudioData.m in Sources */,
 				F7981F781782480D00C71FAD /* RDAudioDataView.m in Sources */,
+				F701BB231785F64400EB2975 /* RDBufferList.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
