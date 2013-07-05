@@ -42,4 +42,9 @@
     [self.playbackProgressSlider setFloatValue:self.audioPlayback.currentProgress];
 }
 
+- (IBAction)setProgress:(id)sender
+{
+    self.audioPlayback.currentProgress = [sender floatValue];
+}
+
 @end

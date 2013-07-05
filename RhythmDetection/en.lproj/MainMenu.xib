@@ -1411,7 +1411,7 @@
 			<object class="NSCustomObject" id="976324537">
 				<string key="NSClassName">RDAppDelegate</string>
 			</object>
-			<object class="NSCustomObject" id="352296969">
+			<object class="NSCustomObject" id="516945232">
 				<string key="NSClassName">RDProcessingController</string>
 			</object>
 			<object class="NSCustomObject" id="755631768">
@@ -2120,14 +2120,14 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">processingController</string>
 						<reference key="source" ref="976324537"/>
-						<reference key="destination" ref="352296969"/>
+						<reference key="destination" ref="516945232"/>
 					</object>
 					<int key="connectionID">599</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">start:</string>
-						<reference key="source" ref="352296969"/>
+						<reference key="source" ref="516945232"/>
 						<reference key="destination" ref="621105713"/>
 					</object>
 					<int key="connectionID">597</int>
@@ -2135,7 +2135,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
 						<string key="label">pause:</string>
-						<reference key="source" ref="352296969"/>
+						<reference key="source" ref="516945232"/>
 						<reference key="destination" ref="400266197"/>
 					</object>
 					<int key="connectionID">598</int>
@@ -2143,7 +2143,7 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">audioDataView</string>
-						<reference key="source" ref="352296969"/>
+						<reference key="source" ref="516945232"/>
 						<reference key="destination" ref="777886206"/>
 					</object>
 					<int key="connectionID">600</int>
@@ -2151,10 +2151,18 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">playbackProgressSlider</string>
-						<reference key="source" ref="352296969"/>
+						<reference key="source" ref="516945232"/>
 						<reference key="destination" ref="674063813"/>
 					</object>
 					<int key="connectionID">601</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">setProgress:</string>
+						<reference key="source" ref="516945232"/>
+						<reference key="destination" ref="674063813"/>
+					</object>
+					<int key="connectionID">602</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3438,7 +3446,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">596</int>
-						<reference key="object" ref="352296969"/>
+						<reference key="object" ref="516945232"/>
 						<reference key="parent" ref="0"/>
 					</object>
 				</array>
@@ -3639,7 +3647,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">601</int>
+			<int key="maxID">602</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3686,11 +3694,16 @@
 					<string key="superclassName">NSObject</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="pause:">id</string>
+						<string key="setProgress:">id</string>
 						<string key="start:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
 						<object class="IBActionInfo" key="pause:">
 							<string key="name">pause:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="setProgress:">
+							<string key="name">setProgress:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="start:">

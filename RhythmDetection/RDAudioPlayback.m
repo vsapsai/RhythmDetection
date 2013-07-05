@@ -215,12 +215,18 @@ static OSStatus AbsValue(void *							inRefCon,
 
 - (void)didPlayFrames:(UInt32)framesCount
 {
-    self.frameIndex += framesCount;
+    OSAtomicAdd64(framesCount, &_frameIndex);
 }
 
 - (float)currentProgress
 {
     return (float)self.frameIndex / self.framesCount;
+}
+
+- (void)setCurrentProgress:(float)progress
+{
+    NSParameterAssert((0.0 <= progress) && (progress <= 1.0));
+    _frameIndex = progress * self.framesCount;
 }
 
 @end

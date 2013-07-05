@@ -18,4 +18,5 @@
 
 - (IBAction)start:(id)sender;
 - (IBAction)pause:(id)sender;
+- (IBAction)setProgress:(id)sender;
 @end
