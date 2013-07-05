@@ -79,37 +79,28 @@
     NSAssert(readFramesCount == framesCount, @"Not all file content is read");
 }
 
-//TODO: use readDataInFormat:...
-- (NSData *)PCMRepresentation
+- (NSData *)monoPCMRepresentation
 {
     NSAssert(NULL != _audioFileRef, @"ExtAudioFileRef is absent");
-    AudioStreamBasicDescription fileFormat = [self fileFormat];
-
-    UInt32 nChannels = 1;
     AudioStreamBasicDescription monoPCMFormat = {
-        .mSampleRate = fileFormat.mSampleRate,
+        .mSampleRate = [self fileFormat].mSampleRate,
         .mFormatID = kAudioFormatLinearPCM,
         .mFormatFlags = kAudioFormatFlagsCanonical,
-        .mChannelsPerFrame = nChannels,
+        .mChannelsPerFrame = 1,
         .mFramesPerPacket = 1,
         .mBitsPerChannel = 8 * sizeof(AudioUnitSampleType),
-        .mBytesPerPacket = nChannels * sizeof(AudioUnitSampleType),
-        .mBytesPerFrame = nChannels * sizeof(AudioUnitSampleType)
+        .mBytesPerPacket = sizeof(AudioUnitSampleType),
+        .mBytesPerFrame = sizeof(AudioUnitSampleType)
     };
-    RDThrowIfError(ExtAudioFileSetProperty(_audioFileRef, kExtAudioFileProperty_ClientDataFormat, sizeof(monoPCMFormat), &monoPCMFormat), @"set client data format for file");
 
     SInt64 framesCount = [self framesCount];
-    AudioBufferList bufferList;
-    bufferList.mNumberBuffers = 1;
-    bufferList.mBuffers[0].mNumberChannels = nChannels;
-    SInt64 samplesCount = framesCount * nChannels;
-    NSAssert(samplesCount <= UINT32_MAX, @"Data size overflowing 32 bits isn't supported");
-    UInt32 framesCount32 = (UInt32)framesCount;
-    UInt32 samplesCount32 = (UInt32)samplesCount;
-    bufferList.mBuffers[0].mData = calloc(samplesCount32, sizeof(AudioSampleType));
-    bufferList.mBuffers[0].mDataByteSize = samplesCount32 * sizeof(AudioSampleType);
-    RDThrowIfError(ExtAudioFileRead(_audioFileRef, &framesCount32, &bufferList), @"read data");
-    return [NSData dataWithBytesNoCopy:bufferList.mBuffers[0].mData length:bufferList.mBuffers[0].mDataByteSize freeWhenDone:YES];
+    NSAssert(framesCount <= UINT32_MAX, @"Subsequent computations shouldn't overflow 64 bits");
+    SInt64 bufferSize64 = framesCount * monoPCMFormat.mBytesPerFrame;
+    NSAssert(bufferSize64 <= UINT32_MAX, @"Data size overflowing 32 bits isn't supported");
+    UInt32 bufferSize = (UInt32)bufferSize64;
+    RDBufferList *bufferList = [[RDBufferList alloc] initWithBufferSize:bufferSize count:1];
+    [self readDataInFormat:monoPCMFormat inBufferList:bufferList];
+    return [[bufferList buffers] lastObject];
 }
 
 @end

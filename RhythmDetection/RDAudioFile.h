@@ -21,5 +21,5 @@
 
 // Caller is responsible for providing buffer list of sufficient size.
 - (void)readDataInFormat:(AudioStreamBasicDescription)dataFormat inBufferList:(RDBufferList *)bufferList;
-- (NSData *)PCMRepresentation;
+- (NSData *)monoPCMRepresentation;
 @end

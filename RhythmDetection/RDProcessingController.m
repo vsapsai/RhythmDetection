@@ -22,7 +22,7 @@
 {
     self.audioPlayback = [[RDAudioPlayback alloc] initWithURL:fileUrl];
     RDAudioFile *file = [[RDAudioFile alloc] initWithURL:fileUrl];
-    RDAudioData *audioData = [[RDAudioData alloc] initWithData:[file PCMRepresentation]];
+    RDAudioData *audioData = [[RDAudioData alloc] initWithData:[file monoPCMRepresentation]];
     self.audioDataView.audioData = audioData;
     [NSTimer scheduledTimerWithTimeInterval:(1.0 / 30) target:self selector:@selector(updatePlaybackProgress:) userInfo:nil repeats:YES];
 }

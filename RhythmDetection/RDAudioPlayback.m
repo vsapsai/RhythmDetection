@@ -160,7 +160,10 @@ static OSStatus AbsValue(void *							inRefCon,
 - (RDBufferList *)readAudioFileContent:(RDAudioFile *)audioFile
 {
     SInt64 framesCount = [audioFile framesCount];
-    SInt64 bufferSize = framesCount * sizeof(AudioUnitSampleType);
+    NSAssert(framesCount <= UINT32_MAX, @"Subsequent computations shouldn't overflow 64 bits");
+    SInt64 bufferSize64 = framesCount * sizeof(AudioUnitSampleType);
+    NSAssert(bufferSize64 <= UINT32_MAX, @"Data size overflowing 32 bits isn't supported");
+    UInt32 bufferSize = (UInt32)bufferSize64;
     RDBufferList *bufferList = [[RDBufferList alloc] initWithBufferSize:bufferSize count:2];
     [audioFile readDataInFormat:[self internalBufferDataFormat] inBufferList:bufferList];
     return bufferList;

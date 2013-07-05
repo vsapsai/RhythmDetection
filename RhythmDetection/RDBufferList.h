@@ -16,6 +16,9 @@
 - (id)initWithBuffers:(NSArray *)buffers;
 - (id)initWithBufferSize:(UInt32)bufferByteSize count:(UInt32)buffersCount;
 
+// Returns internal buffers, so be careful mutating them.
+- (NSArray *)buffers;
+
 - (NSUInteger)buffersCount;
 - (NSUInteger)bufferSize;
 
