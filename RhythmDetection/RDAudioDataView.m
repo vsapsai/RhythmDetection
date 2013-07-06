@@ -12,10 +12,25 @@
 const CGFloat kStep = 2.0;
 const CGFloat kVerticalPadding = 5.0;
 
+@interface RDAudioDataView()
+@property (assign, nonatomic) NSUInteger samplesCount;
+@end
+
 @implementation RDAudioDataView
 
 - (void)reloadData
 {
+    self.samplesCount = [self.dataSource numberOfSamplesInAudioDataView:self];
+    NSScrollView *scrollView = [self enclosingScrollView];
+    if (nil != scrollView)
+    {
+        CGFloat minWidth = NSWidth([scrollView frame]);
+        CGFloat dataWidth = self.samplesCount * kStep;
+        CGFloat width = fmax(minWidth, dataWidth);
+        NSSize frameSize = [self frame].size;
+        frameSize.width = width;
+        [self setFrameSize:frameSize];
+    }
     [self setNeedsDisplay:YES];
 }
 
@@ -28,13 +43,13 @@ const CGFloat kVerticalPadding = 5.0;
 
     // Draw values.
     NSBezierPath *path = [NSBezierPath bezierPath];
-    NSUInteger dataLength = [self.dataSource numberOfSamplesInAudioDataView:self];
-    NSUInteger drawableLength = (NSUInteger)(NSWidth([self bounds]) / kStep);
-    dataLength = (NSUInteger)fmin(dataLength, drawableLength);
     AudioSampleType min = [self.dataSource minValueInAudioDataView:self];
     AudioSampleType max = [self.dataSource maxValueInAudioDataView:self];
     CGFloat height = NSHeight([self bounds]) - 2 * kVerticalPadding;
-    for (NSUInteger i = 0; i < dataLength; i++)
+    NSUInteger startIndex = (NSUInteger)floor(NSMinX(dirtyRect) / kStep);
+    NSUInteger endIndex = (NSUInteger)ceil(NSMaxX(dirtyRect) / kStep) + 1;  // +1 because endIndex is excluded
+    endIndex = (NSUInteger)fmin(endIndex, self.samplesCount);
+    for (NSUInteger i = startIndex; i < endIndex; i++)
     {
         CGFloat x = 0.0 + kStep * i;
 
@@ -43,7 +58,7 @@ const CGFloat kVerticalPadding = 5.0;
         CGFloat y = height * normalizedY + kVerticalPadding;
 
         NSPoint point = NSMakePoint(x, y);
-        if (i > 0)
+        if (i > startIndex)
         {
             [path lineToPoint:point];
         }
