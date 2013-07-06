@@ -15,6 +15,8 @@
 
 - (void)loadFileAtURL:(NSURL *)fileUrl;
 
+- (BOOL)isReady;
+
 - (IBAction)start:(id)sender;
 - (IBAction)pause:(id)sender;
 - (IBAction)setProgress:(id)sender;

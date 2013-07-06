@@ -16,15 +16,30 @@
 @property (strong, nonatomic) RDAudioPlayback *audioPlayback;
 @property (strong, nonatomic) RDAudioData *audioData;
 @property (assign, nonatomic) NSUInteger audioDataStartIndex;
+@property (assign, nonatomic, getter=isReady) BOOL ready;
 @end
 
 @implementation RDProcessingController
 
 - (void)loadFileAtURL:(NSURL *)fileUrl
 {
-    RDAudioFile *file = [[RDAudioFile alloc] initWithURL:fileUrl];
-    self.audioPlayback = [[RDAudioPlayback alloc] initWithAudioFile:file];
-    RDAudioData *audioData = [[RDAudioData alloc] initWithData:[file monoPCMRepresentation]];
+    [NSThread detachNewThreadSelector:@selector(_loadFileAtURL:) toTarget:self withObject:fileUrl];
+}
+
+- (void)_loadFileAtURL:(NSURL *)fileUrl
+{
+    @autoreleasepool
+    {
+        RDAudioFile *file = [[RDAudioFile alloc] initWithURL:fileUrl];
+        self.audioPlayback = [[RDAudioPlayback alloc] initWithAudioFile:file];
+        RDAudioData *audioData = [[RDAudioData alloc] initWithData:[file monoPCMRepresentation]];
+        [self performSelectorOnMainThread:@selector(didLoadAudioData:) withObject:audioData waitUntilDone:NO];
+    }
+}
+
+- (void)didLoadAudioData:(RDAudioData *)audioData
+{
+    self.ready = YES;
     //[self displayNonZeroAudioData:audioData];
     [self displayAudioData:[self computeEnergyBuckets:audioData]];
     [NSTimer scheduledTimerWithTimeInterval:(1.0 / 30) target:self selector:@selector(updatePlaybackProgress:) userInfo:nil repeats:YES];
