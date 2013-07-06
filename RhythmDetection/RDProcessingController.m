@@ -25,7 +25,8 @@
     RDAudioFile *file = [[RDAudioFile alloc] initWithURL:fileUrl];
     self.audioPlayback = [[RDAudioPlayback alloc] initWithAudioFile:file];
     RDAudioData *audioData = [[RDAudioData alloc] initWithData:[file monoPCMRepresentation]];
-    self.audioData = audioData;
+    //[self displayNonZeroAudioData:audioData];
+    [self displayAudioData:[self computeEnergyBuckets:audioData]];
     [NSTimer scheduledTimerWithTimeInterval:(1.0 / 30) target:self selector:@selector(updatePlaybackProgress:) userInfo:nil repeats:YES];
 }
 
@@ -53,27 +54,51 @@
 
 #pragma mark Data processing
 
-- (void)setAudioData:(RDAudioData *)audioData
+- (RDAudioData *)computeEnergyBuckets:(RDAudioData *)audioData
 {
-    if (audioData != _audioData)
+    const NSUInteger kBucketSize = 1024;
+    const NSUInteger energySamplesCount = audioData.length / kBucketSize;
+    NSMutableData *energyData = [[NSMutableData alloc] initWithLength:(energySamplesCount * sizeof(AudioSampleType))];
+    AudioSampleType *energyBuffer = (AudioSampleType *)[energyData mutableBytes];
+    for (NSInteger i = 0; i < energySamplesCount; i++)
     {
-        _audioData = audioData;
-
-        // Find where non-zero data starts.
-        NSUInteger startIndex = 0;
-        for (NSUInteger i = 0; i < audioData.length; i++)
+        energyBuffer[i] = 0.0;
+        for (NSInteger j = 0; j < kBucketSize; j++)
         {
-            AudioSampleType sample = [audioData valueAtIndex:i];
-            if (fabs(sample) > 0.1)
-            {
-                startIndex = i;
-                break;
-            }
+            AudioSampleType value = [audioData valueAtIndex:(i * kBucketSize + j)];
+            energyBuffer[i] += value * value;
         }
-        self.audioDataStartIndex = startIndex;
-
-        [self.audioDataView reloadData];
     }
+    return [[RDAudioData alloc] initWithData:energyData];
+}
+
+#pragma mark Data visualizing
+
+- (void)displayNonZeroAudioData:(RDAudioData *)audioData
+{
+    self.audioData = audioData;
+    
+    // Find where non-zero data starts.
+    NSUInteger startIndex = 0;
+    for (NSUInteger i = 0; i < audioData.length; i++)
+    {
+        AudioSampleType sample = [audioData valueAtIndex:i];
+        if (fabs(sample) > 0.1)
+        {
+            startIndex = i;
+            break;
+        }
+    }
+    self.audioDataStartIndex = startIndex;
+
+    [self.audioDataView reloadData];
+}
+
+- (void)displayAudioData:(RDAudioData *)audioData
+{
+    self.audioData = audioData;
+    self.audioDataStartIndex = 0;
+    [self.audioDataView reloadData];
 }
 
 #pragma mark RDAudioDataViewDataSource
