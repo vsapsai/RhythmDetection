@@ -22,6 +22,8 @@
 - (void)start;
 - (void)stop;
 
+- (BOOL)isPlaying;
+
 - (float)currentProgress;
 // It is not guaranteed that currentProgress will be equal to set progress.
 - (void)setCurrentProgress:(float)progress;

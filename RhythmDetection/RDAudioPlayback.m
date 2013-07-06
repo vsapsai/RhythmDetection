@@ -20,6 +20,8 @@
 @property (assign, nonatomic) SInt64 framesCount;
 @property (assign, nonatomic) SInt64 frameIndex;
 
+@property (assign, nonatomic, getter=isPlaying) BOOL playing;
+
 - (OSStatus)readDataOfLength:(UInt32)framesCount inBufferList:(AudioBufferList *)bufferList;
 @end
 
@@ -188,12 +190,20 @@ static OSStatus AbsValue(void *							inRefCon,
 
 - (void)start
 {
-    RDThrowIfError(AUGraphStart(_graph), @"start graph");
+    if (!self.playing)
+    {
+        RDThrowIfError(AUGraphStart(_graph), @"start graph");
+        self.playing = YES;
+    }
 }
 
 - (void)stop
 {
-    RDThrowIfError(AUGraphStop(_graph), @"stop graph");
+    if (self.playing)
+    {
+        RDThrowIfError(AUGraphStop(_graph), @"stop graph");
+        self.playing = NO;
+    }
 }
 
 #pragma mark -
