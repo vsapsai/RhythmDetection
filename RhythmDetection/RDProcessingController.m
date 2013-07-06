@@ -59,7 +59,10 @@
 
 - (void)updatePlaybackProgress:(NSTimer *)timer
 {
-    [self.playbackProgressSlider setFloatValue:self.audioPlayback.currentProgress];
+    float progress = self.audioPlayback.currentProgress;
+    [self.playbackProgressSlider setFloatValue:progress];
+    self.audioDataView.position = floor(progress * self.audioData.length);
+    [self.audioDataView scrollToCurrentPosition];
 }
 
 - (IBAction)setProgress:(id)sender

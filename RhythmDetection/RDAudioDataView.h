@@ -14,6 +14,10 @@
 @interface RDAudioDataView : NSView
 @property (weak, nonatomic) IBOutlet id<RDAudioDataViewDataSource> dataSource;
 
+// Draws vertical line at `position`.
+@property (assign, nonatomic) NSUInteger position;
+- (void)scrollToCurrentPosition;
+
 - (void)reloadData;
 @end
 
