@@ -7,9 +7,17 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <CoreAudio/CoreAudioTypes.h>
 
-@class RDAudioData;
+@protocol RDAudioDataViewDataSource;
 
 @interface RDAudioDataView : NSView
-@property (strong, nonatomic) RDAudioData *audioData;
+@property (weak, nonatomic) IBOutlet id<RDAudioDataViewDataSource> dataSource;
+
+- (void)reloadData;
+@end
+
+@protocol RDAudioDataViewDataSource <NSObject>
+- (NSUInteger)numberOfSamplesInAudioDataView:(RDAudioDataView *)audioDataView;
+- (AudioSampleType)audioDataView:(RDAudioDataView *)audioDataView sampleValueAtIndex:(NSUInteger)sampleIndex;
 @end

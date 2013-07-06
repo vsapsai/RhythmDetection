@@ -7,10 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RDAudioDataView.h"
 
-@class RDAudioDataView;
-
-@interface RDProcessingController : NSObject
+@interface RDProcessingController : NSObject<RDAudioDataViewDataSource>
 @property (weak, nonatomic) IBOutlet RDAudioDataView *audioDataView;
 @property (weak, nonatomic) IBOutlet NSSlider *playbackProgressSlider;
 
