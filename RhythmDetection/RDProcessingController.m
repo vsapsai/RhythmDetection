@@ -113,4 +113,14 @@
     return [self.audioData valueAtIndex:(sampleIndex + self.audioDataStartIndex)];
 }
 
+- (AudioSampleType)minValueInAudioDataView:(RDAudioDataView *)audioDataView
+{
+    return self.audioData.minValue;
+}
+
+- (AudioSampleType)maxValueInAudioDataView:(RDAudioDataView *)audioDataView
+{
+    return self.audioData.maxValue;
+}
+
 @end

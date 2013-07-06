@@ -20,4 +20,6 @@
 @protocol RDAudioDataViewDataSource <NSObject>
 - (NSUInteger)numberOfSamplesInAudioDataView:(RDAudioDataView *)audioDataView;
 - (AudioSampleType)audioDataView:(RDAudioDataView *)audioDataView sampleValueAtIndex:(NSUInteger)sampleIndex;
+- (AudioSampleType)minValueInAudioDataView:(RDAudioDataView *)audioDataView;
+- (AudioSampleType)maxValueInAudioDataView:(RDAudioDataView *)audioDataView;
 @end

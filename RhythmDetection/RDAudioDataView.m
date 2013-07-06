@@ -10,6 +10,7 @@
 #import "RDAudioData.h"
 
 const CGFloat kStep = 2.0;
+const CGFloat kVerticalPadding = 5.0;
 
 @implementation RDAudioDataView
 
@@ -30,14 +31,16 @@ const CGFloat kStep = 2.0;
     NSUInteger dataLength = [self.dataSource numberOfSamplesInAudioDataView:self];
     NSUInteger drawableLength = (NSUInteger)(NSWidth([self bounds]) / kStep);
     dataLength = (NSUInteger)fmin(dataLength, drawableLength);
-    AudioSampleType min = -1.0, max = 1.0;
+    AudioSampleType min = [self.dataSource minValueInAudioDataView:self];
+    AudioSampleType max = [self.dataSource maxValueInAudioDataView:self];
+    CGFloat height = NSHeight([self bounds]) - 2 * kVerticalPadding;
     for (NSUInteger i = 0; i < dataLength; i++)
     {
         CGFloat x = 0.0 + kStep * i;
 
         AudioSampleType value = [self.dataSource audioDataView:self sampleValueAtIndex:i];
         CGFloat normalizedY = (value - min) / (max - min);
-        CGFloat y = NSHeight([self bounds]) * normalizedY;
+        CGFloat y = height * normalizedY + kVerticalPadding;
 
         NSPoint point = NSMakePoint(x, y);
         if (i > 0)
