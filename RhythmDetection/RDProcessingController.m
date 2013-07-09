@@ -11,6 +11,7 @@
 #import "RDAudioFile.h"
 #import "RDAudioData.h"
 #import "RDAudioDataView.h"
+#import "RDHistoryBuffer.h"
 
 @interface RDProcessingController()
 @property (strong, nonatomic) RDAudioPlayback *audioPlayback;
@@ -41,7 +42,9 @@
 {
     self.ready = YES;
     //[self displayNonZeroAudioData:audioData];
-    [self displayAudioData:[self computeEnergyBuckets:audioData]];
+    RDAudioData *energyData = [self computeEnergyBuckets:audioData];
+    RDAudioData *beatData = [self detectBeats:energyData];
+    [self displayAudioData:beatData];
     [NSTimer scheduledTimerWithTimeInterval:(1.0 / 30) target:self selector:@selector(updatePlaybackProgress:) userInfo:nil repeats:YES];
 }
 
@@ -88,6 +91,45 @@
         }
     }
     return [[RDAudioData alloc] initWithData:energyData];
+}
+
+// Returns data where 1.0 means that value has enough energy to influence
+// a beat, 0.0 means that value has low energy.
+//
+// Use Simple sound energy - sensitivity detection algorithm from
+// http://archive.gamedev.net/archive/reference/programming/features/beatdetection/index.html
+- (RDAudioData *)detectBeats:(RDAudioData *)audioData
+{
+    const NSUInteger kSlidingWindowSize = 43;  // 43 buckets of size 1024 are approximately 1 second of sound
+    const NSUInteger kHalfSlidingWindowSize = kSlidingWindowSize / 2;
+    RDHistoryBuffer *historyBuffer = [[RDHistoryBuffer alloc] initWithLength:kSlidingWindowSize];
+    NSMutableData *beatData = [[NSMutableData alloc] initWithLength:(audioData.length * sizeof(AudioSampleType))];
+
+    // Init buffers.
+    for (NSUInteger i = 0; i < kSlidingWindowSize - 1; i++)
+    {
+        [historyBuffer addValue:[audioData valueAtIndex:i]];
+    }
+    AudioSampleType *beatBuffer = (AudioSampleType *)[beatData mutableBytes];
+    for (NSUInteger i = 0; i < kHalfSlidingWindowSize; i++)
+    {
+        // Zero out buffer at the beginning.
+        beatBuffer[i] = 0.0;
+        // Zero out buffer at the end.
+        beatBuffer[audioData.length - 1 - i] = 0.0;
+    }
+
+    // Main data processing loop.
+    for (NSUInteger i = kHalfSlidingWindowSize; i < audioData.length - kHalfSlidingWindowSize; i++)
+    {
+        NSUInteger windowEndIndex = i + kHalfSlidingWindowSize;
+        [historyBuffer addValue:[audioData valueAtIndex:windowEndIndex]];
+        double comparisonConstant = (-0.0025714 * [historyBuffer variance]) + 1.5142857;
+        AudioSampleType energyValue = [audioData valueAtIndex:i];
+        double beatValue = (energyValue > (comparisonConstant * [historyBuffer average])) ? 1.0 : 0.0;
+        beatBuffer[i] = beatValue;
+    }
+    return [[RDAudioData alloc] initWithData:beatData];
 }
 
 #pragma mark Data visualizing

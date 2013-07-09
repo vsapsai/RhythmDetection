@@ -21,6 +21,7 @@
 		F789133A1787780900FAE59F /* RDProcessingController.m in Sources */ = {isa = PBXBuildFile; fileRef = F78913391787780900FAE59F /* RDProcessingController.m */; };
 		F7981F75178242A900C71FAD /* RDAudioData.m in Sources */ = {isa = PBXBuildFile; fileRef = F7981F74178242A900C71FAD /* RDAudioData.m */; };
 		F7981F781782480D00C71FAD /* RDAudioDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7981F771782480D00C71FAD /* RDAudioDataView.m */; };
+		F79C3C5B1788B8BA00F43D9F /* RDHistoryBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = F79C3C5A1788B8BA00F43D9F /* RDHistoryBuffer.m */; };
 		F7CC63AC177FA92C002EF3A6 /* RDAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC63AB177FA92C002EF3A6 /* RDAudioFile.m */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +53,8 @@
 		F7981F74178242A900C71FAD /* RDAudioData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAudioData.m; sourceTree = "<group>"; };
 		F7981F761782480C00C71FAD /* RDAudioDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAudioDataView.h; sourceTree = "<group>"; };
 		F7981F771782480D00C71FAD /* RDAudioDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAudioDataView.m; sourceTree = "<group>"; };
+		F79C3C591788B8BA00F43D9F /* RDHistoryBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDHistoryBuffer.h; sourceTree = "<group>"; };
+		F79C3C5A1788B8BA00F43D9F /* RDHistoryBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDHistoryBuffer.m; sourceTree = "<group>"; };
 		F7CC63AA177FA92C002EF3A6 /* RDAudioFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAudioFile.h; sourceTree = "<group>"; };
 		F7CC63AB177FA92C002EF3A6 /* RDAudioFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAudioFile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +126,8 @@
 				F7CC63AB177FA92C002EF3A6 /* RDAudioFile.m */,
 				F7981F73178242A900C71FAD /* RDAudioData.h */,
 				F7981F74178242A900C71FAD /* RDAudioData.m */,
+				F79C3C591788B8BA00F43D9F /* RDHistoryBuffer.h */,
+				F79C3C5A1788B8BA00F43D9F /* RDHistoryBuffer.m */,
 				F7981F761782480C00C71FAD /* RDAudioDataView.h */,
 				F7981F771782480D00C71FAD /* RDAudioDataView.m */,
 				F701BB211785F64400EB2975 /* RDBufferList.h */,
@@ -219,6 +224,7 @@
 				F7981F781782480D00C71FAD /* RDAudioDataView.m in Sources */,
 				F701BB231785F64400EB2975 /* RDBufferList.m in Sources */,
 				F789133A1787780900FAE59F /* RDProcessingController.m in Sources */,
+				F79C3C5B1788B8BA00F43D9F /* RDHistoryBuffer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
