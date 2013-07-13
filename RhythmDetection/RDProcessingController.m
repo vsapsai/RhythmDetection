@@ -14,6 +14,7 @@
 #import "RDHistoryBuffer.h"
 
 @interface RDProcessingController()
+@property (strong, nonatomic) RDAudioFile *audioFile;
 @property (strong, nonatomic) RDAudioPlayback *audioPlayback;
 @property (strong, nonatomic) RDAudioData *audioData;
 @property (assign, nonatomic) NSUInteger audioDataStartIndex;
@@ -32,6 +33,7 @@
     @autoreleasepool
     {
         RDAudioFile *file = [[RDAudioFile alloc] initWithURL:fileUrl];
+        self.audioFile = file;
         self.audioPlayback = [[RDAudioPlayback alloc] initWithAudioFile:file];
         RDAudioData *audioData = [[RDAudioData alloc] initWithData:[file monoPCMRepresentation]];
         [self performSelectorOnMainThread:@selector(didLoadAudioData:) withObject:audioData waitUntilDone:NO];
@@ -41,6 +43,9 @@
 - (void)didLoadAudioData:(RDAudioData *)audioData
 {
     self.ready = YES;
+    NSString *windowTitle = [NSString stringWithFormat:NSLocalizedString(@"RhythmDetection - %@ (%@)", @"window title"), [self.audioFile title], [self.audioFile artist]];
+    [[self.audioDataView window] setTitle:windowTitle];
+
     //[self displayNonZeroAudioData:audioData];
     RDAudioData *energyData = [self computeEnergyBuckets:audioData];
     RDAudioData *beatData = [self detectBeats:energyData];

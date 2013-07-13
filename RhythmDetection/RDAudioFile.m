@@ -16,6 +16,7 @@
 @private
     ExtAudioFileRef _audioFileRef;
 }
+@property (strong, nonatomic) NSDictionary *infoDictionaryPrimitive;
 @end
 
 @implementation RDAudioFile
@@ -67,6 +68,39 @@
 {
     return [self framesCount] / [self sampleRate];
 }
+
+- (NSDictionary *)infoDictionary
+{
+    if (nil == self.infoDictionaryPrimitive)
+    {
+        AudioFileID audioFileID = NULL;
+        UInt32 size = sizeof(audioFileID);
+        RDThrowIfError(ExtAudioFileGetProperty(_audioFileRef, kExtAudioFileProperty_AudioFile, &size, &audioFileID), @"read AudioFile property");
+        //kAudioFilePropertyInfoDictionary
+        CFDictionaryRef infoCFDictionary = NULL;
+        size = sizeof(infoCFDictionary);
+        AudioFileGetProperty(audioFileID, kAudioFilePropertyInfoDictionary, &size, &infoCFDictionary);
+        NSDictionary *infoDictionary = (__bridge_transfer NSDictionary *)infoCFDictionary;
+        if (nil == infoDictionary)
+        {
+            infoDictionary = [NSDictionary dictionary];
+        }
+        self.infoDictionaryPrimitive = infoDictionary;
+    }
+    return self.infoDictionaryPrimitive;
+}
+
+- (NSString *)title
+{
+    return [[self infoDictionary] objectForKey:[NSString stringWithUTF8String:kAFInfoDictionary_Title]];
+}
+
+- (NSString *)artist
+{
+    return [[self infoDictionary] objectForKey:[NSString stringWithUTF8String:kAFInfoDictionary_Artist]];
+}
+
+#pragma mark -
 
 - (void)readDataInFormat:(AudioStreamBasicDescription)dataFormat inBufferList:(RDBufferList *)bufferList
 {
