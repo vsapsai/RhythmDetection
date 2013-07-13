@@ -19,4 +19,20 @@
     [self.processingController loadFileAtURL:fileUrl];
 }
 
+- (IBAction)openDocument:(id)sender
+{
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.allowsMultipleSelection = NO;
+    openPanel.canChooseDirectories = NO;
+    openPanel.canChooseFiles = YES;
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSInteger result)
+    {
+        if (NSFileHandlingPanelOKButton == result)
+        {
+            NSURL *fileUrl = [[openPanel URLs] lastObject];
+            [self.processingController loadFileAtURL:fileUrl];
+        }
+    }];
+}
+
 @end

@@ -25,6 +25,7 @@
 
 - (void)loadFileAtURL:(NSURL *)fileUrl
 {
+    self.ready = NO;
     [NSThread detachNewThreadSelector:@selector(_loadFileAtURL:) toTarget:self withObject:fileUrl];
 }
 
