@@ -9,14 +9,34 @@
 #import "RDAppDelegate.h"
 #import "RDProcessingController.h"
 
+static NSString *const kRDLastOpenedFileKey = @"kRDLastOpenedFileKey";  // NSURL
+
 @implementation RDAppDelegate
+
+- (void)openAudioFileAtURL:(NSURL *)fileUrl
+{
+    NSParameterAssert(nil != fileUrl);
+    [self.processingController loadFileAtURL:fileUrl];
+    // vsapsai: it is better to wait until file is successfully loaded,  but I'm
+    // fine with current subpar behavior.
+    [[NSDocumentController sharedDocumentController] noteNewRecentDocumentURL:fileUrl];
+    [[NSUserDefaults standardUserDefaults] setURL:fileUrl forKey:kRDLastOpenedFileKey];
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSString *filePath = @"~/Music/iTunes/iTunes Media/Music/The Rolling Stones/Hot Rocks 1964-1971/1-09 Paint It Black.m4a";
-    filePath = [filePath stringByExpandingTildeInPath];
-    NSURL *fileUrl = [NSURL fileURLWithPath:filePath isDirectory:NO];
-    [self.processingController loadFileAtURL:fileUrl];
+    NSURL *lastFileUrl = [[NSUserDefaults standardUserDefaults] URLForKey:kRDLastOpenedFileKey];
+    if (nil != lastFileUrl)
+    {
+        [self openAudioFileAtURL:lastFileUrl];
+    }
+}
+
+- (BOOL)application:(NSApplication *)theApplication openFile:(NSString *)filename
+{
+    NSURL *fileUrl = [NSURL fileURLWithPath:filename isDirectory:NO];
+    [self openAudioFileAtURL:fileUrl];
+    return YES;
 }
 
 - (IBAction)openDocument:(id)sender
@@ -30,7 +50,7 @@
         if (NSFileHandlingPanelOKButton == result)
         {
             NSURL *fileUrl = [[openPanel URLs] lastObject];
-            [self.processingController loadFileAtURL:fileUrl];
+            [self openAudioFileAtURL:fileUrl];
         }
     }];
 }
