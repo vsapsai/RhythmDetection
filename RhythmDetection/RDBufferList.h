@@ -15,12 +15,15 @@
 // NSMutableData objects should be of the same size.
 - (id)initWithBuffers:(NSArray *)buffers;
 - (id)initWithBufferSize:(UInt32)bufferByteSize count:(UInt32)buffersCount;
+- (RDBufferList *)sameSizeBufferList;
 
 // Returns internal buffers, so be careful mutating them.
 - (NSArray *)buffers;
 
 - (NSUInteger)buffersCount;
+- (UInt32)buffersCount32;
 - (NSUInteger)bufferSize;
+- (UInt32)bufferSize32;
 
 // Returns AudioBufferList for all data.
 - (AudioBufferList *)audioBufferList NS_RETURNS_INNER_POINTER;

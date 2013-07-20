@@ -10,6 +10,7 @@
 #import "RDAudioException.h"
 #import "RDAudioFile.h"
 #import "RDBufferList.h"
+#import "RDAudioEffect.h"
 
 //TODO: clarify difference between AudioSampleType and AudioUnitSampleType
 
@@ -167,6 +168,10 @@ static OSStatus AbsValue(void *							inRefCon,
     UInt32 bufferSize = (UInt32)bufferSize64;
     RDBufferList *bufferList = [[RDBufferList alloc] initWithBufferSize:bufferSize count:2];
     [audioFile readDataInFormat:[self internalBufferDataFormat] inBufferList:bufferList];
+
+    RDAudioEffect *lowPassFilter = [RDAudioEffect lowPassFilterWithCutoffFrequency:50.0];
+    bufferList = [lowPassFilter processBufferList:bufferList];
+
     return bufferList;
 }
 

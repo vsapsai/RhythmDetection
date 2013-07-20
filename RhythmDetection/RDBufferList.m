@@ -66,6 +66,11 @@
     return bufferList;
 }
 
+- (RDBufferList *)sameSizeBufferList
+{
+    return [[RDBufferList alloc] initWithBufferSize:[self bufferSize32] count:[self buffersCount32]];
+}
+
 #pragma mark -
 
 - (NSUInteger)buffersCount
@@ -73,9 +78,23 @@
     return [self.buffers count];
 }
 
+- (UInt32)buffersCount32
+{
+    NSUInteger count = [self buffersCount];
+    NSAssert(count <= UINT32_MAX, @"buffersCount overflows UInt32");
+    return (UInt32)count;
+}
+
 - (NSUInteger)bufferSize
 {
     return [self.buffers[0] length];
+}
+
+- (UInt32)bufferSize32
+{
+    NSUInteger size = [self bufferSize];
+    NSAssert(size <= UINT32_MAX, @"bufferSize overflows UInt32");
+    return (UInt32)size;
 }
 
 - (AudioBufferList *)audioBufferList
