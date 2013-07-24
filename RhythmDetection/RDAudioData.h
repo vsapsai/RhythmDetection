@@ -14,6 +14,8 @@
 // data contains buffer of AudioSampleType.
 - (id)initWithData:(NSData *)data;
 
+- (const AudioSampleType *)rawData NS_RETURNS_INNER_POINTER;
+
 @property (readonly, nonatomic) NSUInteger length;
 @property (readonly, nonatomic) AudioSampleType minValue;
 @property (readonly, nonatomic) AudioSampleType maxValue;

@@ -12,6 +12,7 @@
 #import "RDAudioData.h"
 #import "RDAudioDataView.h"
 #import "RDHistoryBuffer.h"
+#import "RDFFTProcessor.h"
 
 @interface RDProcessingController()
 @property (strong, nonatomic) RDAudioFile *audioFile;
@@ -48,8 +49,7 @@
     [[self.audioDataView window] setTitle:windowTitle];
 
     //[self displayNonZeroAudioData:audioData];
-    RDAudioData *energyData = [self computeEnergyBuckets:audioData];
-    RDAudioData *beatData = [self detectBeats:energyData];
+    RDAudioData *beatData = [self computeBeats:audioData];
     [self displayAudioData:beatData];
     [NSTimer scheduledTimerWithTimeInterval:(1.0 / 30) target:self selector:@selector(updatePlaybackProgress:) userInfo:nil repeats:YES];
 }
@@ -81,6 +81,20 @@
 
 #pragma mark Data processing
 
+- (RDAudioData *)computeBeats:(RDAudioData *)audioData
+{
+#if 0
+    RDAudioData *energyData = [self computeEnergyBuckets:audioData];
+    RDAudioData *beatData = [self detectBeats:energyData];
+    return beatData;
+#else
+    NSArray *energyDatas = [self computeEnergyBucketsInFrequencySubbands:audioData];
+    NSArray *beatDatas = [self detectBeatsArray:energyDatas];
+    RDAudioData *beatData = [self collectBeats:beatDatas];
+    return beatData;
+#endif
+}
+
 - (RDAudioData *)computeEnergyBuckets:(RDAudioData *)audioData
 {
     const NSUInteger kBucketSize = 1024;
@@ -97,6 +111,54 @@
         }
     }
     return [[RDAudioData alloc] initWithData:energyData];
+}
+
+//TODO(vsapsai): be careful with AudioSampleType and float, they aren't interchangeable
+- (NSArray *)computeEnergyBucketsInFrequencySubbands:(RDAudioData *)audioData
+{
+    const NSUInteger kBucketSize = 1024;
+    const NSUInteger kSubbandsCount = 32;
+    const NSUInteger energySamplesCount = audioData.length / kBucketSize;
+    const NSUInteger subbandSize = kBucketSize / kSubbandsCount;
+
+    // Prepare memory buffers for results.
+    float *subbandEnergyBuffers[kSubbandsCount];
+    NSMutableArray *subbandEnergies = [NSMutableArray arrayWithCapacity:kSubbandsCount];
+    for (NSInteger i = 0; i < kSubbandsCount; i++)
+    {
+        NSMutableData *energyData = [[NSMutableData alloc] initWithLength:(energySamplesCount * sizeof(float))];
+        [subbandEnergies addObject:energyData];
+        subbandEnergyBuffers[i] = (float *)[energyData mutableBytes];
+    }
+
+    RDFFTProcessor *fftProcessor = [[RDFFTProcessor alloc] initWithFramesCount:kBucketSize];
+    const AudioSampleType *rawAudioData = [audioData rawData];
+    const float *rawData = (const float *)rawAudioData;
+    float *energyBuffer = (float *)calloc(kBucketSize, sizeof(float));
+    for (NSInteger bucketIndex = 0; bucketIndex < energySamplesCount; bucketIndex++)
+    {
+        [fftProcessor writeSpectrumEnergyForData:(rawData + bucketIndex * kBucketSize)
+                                        toBuffer:energyBuffer];
+        // Split energy into subbands.
+        for (NSInteger subbandIndex = 0; subbandIndex < kSubbandsCount; subbandIndex++)
+        {
+            float subbandEnergy = 0.0f;
+            for (NSInteger i = subbandIndex * subbandSize; i < (subbandIndex + 1) * subbandSize; i++)
+            {
+                subbandEnergy += energyBuffer[i];
+            }
+            subbandEnergy /= subbandSize;
+            subbandEnergyBuffers[subbandIndex][bucketIndex] = subbandEnergy;
+        }
+    }
+    free(energyBuffer);
+
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:kSubbandsCount];
+    for (NSData *energyData in subbandEnergies)
+    {
+        [result addObject:[[RDAudioData alloc] initWithData:energyData]];
+    }
+    return [result copy];
 }
 
 // Returns data where 1.0 means that value has enough energy to influence
@@ -134,6 +196,38 @@
         AudioSampleType energyValue = [audioData valueAtIndex:i];
         double beatValue = (energyValue > (comparisonConstant * [historyBuffer average])) ? 1.0 : 0.0;
         beatBuffer[i] = beatValue;
+    }
+    return [[RDAudioData alloc] initWithData:beatData];
+}
+
+// Receives and returns NSArray of RDAudioData.
+- (NSArray *)detectBeatsArray:(NSArray *)audioDataArray
+{
+    NSMutableArray *result = [NSMutableArray arrayWithCapacity:[audioDataArray count]];
+    for (RDAudioData *audioData in audioDataArray)
+    {
+        [result addObject:[self detectBeats:audioData]];
+    }
+    return [result copy];
+}
+
+- (RDAudioData *)collectBeats:(NSArray *)audioDataArray
+{
+    NSParameterAssert([audioDataArray count] > 0);
+    NSUInteger audioDataCount = [audioDataArray count];
+    NSUInteger audioDataLength = [[audioDataArray lastObject] length];
+    NSMutableData *beatData = [[NSMutableData alloc] initWithLength:(audioDataLength * sizeof(AudioSampleType))];
+    AudioSampleType *beatBuffer = (AudioSampleType *)[beatData mutableBytes];
+    // Average everything.
+    for (NSUInteger i = 0; i < audioDataLength; i++)
+    {
+        AudioSampleType averageValue = 0.0;
+        for (RDAudioData *audioData in audioDataArray)
+        {
+            averageValue += [audioData valueAtIndex:i];
+        }
+        averageValue /= audioDataCount;
+        beatBuffer[i] = averageValue;
     }
     return [[RDAudioData alloc] initWithData:beatData];
 }
