@@ -169,8 +169,8 @@ static OSStatus AbsValue(void *							inRefCon,
     RDBufferList *bufferList = [[RDBufferList alloc] initWithBufferSize:bufferSize count:2];
     [audioFile readDataInFormat:[self internalBufferDataFormat] inBufferList:bufferList];
 
-    RDAudioEffect *lowPassFilter = [RDAudioEffect lowPassFilterWithCutoffFrequency:50.0];
-    bufferList = [lowPassFilter processBufferList:bufferList];
+//    RDAudioEffect *lowPassFilter = [RDAudioEffect lowPassFilterWithCutoffFrequency:50.0];
+//    bufferList = [lowPassFilter processBufferList:bufferList];
 
     return bufferList;
 }
