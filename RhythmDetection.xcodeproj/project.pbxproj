@@ -10,6 +10,14 @@
 		F701BB231785F64400EB2975 /* RDBufferList.m in Sources */ = {isa = PBXBuildFile; fileRef = F701BB221785F64400EB2975 /* RDBufferList.m */; };
 		F7175016179D29EC00233328 /* RDFFTProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F7175015179D29EC00233328 /* RDFFTProcessor.m */; };
 		F7175018179DEDCC00233328 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7175017179DEDCC00233328 /* Accelerate.framework */; };
+		F717501B17A1D14100233328 /* RDDataSimilarityDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = F717501A17A1D14100233328 /* RDDataSimilarityDetector.m */; };
+		F717501E17A1E55B00233328 /* RDRepeatedDataGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F717501D17A1E55B00233328 /* RDRepeatedDataGenerator.m */; };
+		F717502417A1E61900233328 /* RDDSPSplitComplex.m in Sources */ = {isa = PBXBuildFile; fileRef = F717502317A1E61800233328 /* RDDSPSplitComplex.m */; };
+		F717504117A1ED7D00233328 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F717502B17A1ECF600233328 /* SenTestingKit.framework */; };
+		F717504217A1ED7D00233328 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CAA8177A390900CAF663 /* Cocoa.framework */; };
+		F717504817A1ED7D00233328 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F717504617A1ED7D00233328 /* InfoPlist.strings */; };
+		F717505217A1EE1C00233328 /* RDRepeatedDataGeneratorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F717505117A1EE1C00233328 /* RDRepeatedDataGeneratorTest.m */; };
+		F717505317A1F1A500233328 /* RDRepeatedDataGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = F717501D17A1E55B00233328 /* RDRepeatedDataGenerator.m */; };
 		F719CAA9177A390900CAF663 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CAA8177A390900CAF663 /* Cocoa.framework */; };
 		F719CAB3177A390900CAF663 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F719CAB1177A390900CAF663 /* InfoPlist.strings */; };
 		F719CAB5177A390900CAF663 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F719CAB4177A390900CAF663 /* main.m */; };
@@ -24,6 +32,10 @@
 		F789133A1787780900FAE59F /* RDProcessingController.m in Sources */ = {isa = PBXBuildFile; fileRef = F78913391787780900FAE59F /* RDProcessingController.m */; };
 		F7981F75178242A900C71FAD /* RDAudioData.m in Sources */ = {isa = PBXBuildFile; fileRef = F7981F74178242A900C71FAD /* RDAudioData.m */; };
 		F7981F781782480D00C71FAD /* RDAudioDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7981F771782480D00C71FAD /* RDAudioDataView.m */; };
+		F79A0AA117A411900082E548 /* RDDataSimilarityDetectorTest.m in Sources */ = {isa = PBXBuildFile; fileRef = F79A0AA017A411900082E548 /* RDDataSimilarityDetectorTest.m */; };
+		F79A0AA217A4129A0082E548 /* RDDataSimilarityDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = F717501A17A1D14100233328 /* RDDataSimilarityDetector.m */; };
+		F79A0AA317A412BD0082E548 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7175017179DEDCC00233328 /* Accelerate.framework */; };
+		F79A0AA417A412D20082E548 /* RDDSPSplitComplex.m in Sources */ = {isa = PBXBuildFile; fileRef = F717502317A1E61800233328 /* RDDSPSplitComplex.m */; };
 		F79C3C5B1788B8BA00F43D9F /* RDHistoryBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = F79C3C5A1788B8BA00F43D9F /* RDHistoryBuffer.m */; };
 		F7CC63AC177FA92C002EF3A6 /* RDAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F7CC63AB177FA92C002EF3A6 /* RDAudioFile.m */; };
 /* End PBXBuildFile section */
@@ -34,6 +46,18 @@
 		F7175014179D29EC00233328 /* RDFFTProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFFTProcessor.h; sourceTree = "<group>"; };
 		F7175015179D29EC00233328 /* RDFFTProcessor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDFFTProcessor.m; sourceTree = "<group>"; };
 		F7175017179DEDCC00233328 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		F717501917A1D14100233328 /* RDDataSimilarityDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDDataSimilarityDetector.h; sourceTree = "<group>"; };
+		F717501A17A1D14100233328 /* RDDataSimilarityDetector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDDataSimilarityDetector.m; sourceTree = "<group>"; };
+		F717501C17A1E55B00233328 /* RDRepeatedDataGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDRepeatedDataGenerator.h; sourceTree = "<group>"; };
+		F717501D17A1E55B00233328 /* RDRepeatedDataGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDRepeatedDataGenerator.m; sourceTree = "<group>"; };
+		F717502217A1E61800233328 /* RDDSPSplitComplex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDDSPSplitComplex.h; sourceTree = "<group>"; };
+		F717502317A1E61800233328 /* RDDSPSplitComplex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDDSPSplitComplex.m; sourceTree = "<group>"; };
+		F717502B17A1ECF600233328 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		F717504017A1ED7D00233328 /* Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F717504517A1ED7D00233328 /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
+		F717504717A1ED7D00233328 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F717504C17A1ED7D00233328 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
+		F717505117A1EE1C00233328 /* RDRepeatedDataGeneratorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDRepeatedDataGeneratorTest.m; sourceTree = "<group>"; };
 		F719CAA5177A390900CAF663 /* RhythmDetection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RhythmDetection.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F719CAA8177A390900CAF663 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		F719CAAB177A390900CAF663 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -61,6 +85,7 @@
 		F7981F74178242A900C71FAD /* RDAudioData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAudioData.m; sourceTree = "<group>"; };
 		F7981F761782480C00C71FAD /* RDAudioDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAudioDataView.h; sourceTree = "<group>"; };
 		F7981F771782480D00C71FAD /* RDAudioDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAudioDataView.m; sourceTree = "<group>"; };
+		F79A0AA017A411900082E548 /* RDDataSimilarityDetectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDDataSimilarityDetectorTest.m; sourceTree = "<group>"; };
 		F79C3C591788B8BA00F43D9F /* RDHistoryBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDHistoryBuffer.h; sourceTree = "<group>"; };
 		F79C3C5A1788B8BA00F43D9F /* RDHistoryBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDHistoryBuffer.m; sourceTree = "<group>"; };
 		F7CC63AA177FA92C002EF3A6 /* RDAudioFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAudioFile.h; sourceTree = "<group>"; };
@@ -68,6 +93,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		F717503C17A1ED7D00233328 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F79A0AA317A412BD0082E548 /* Accelerate.framework in Frameworks */,
+				F717504117A1ED7D00233328 /* SenTestingKit.framework in Frameworks */,
+				F717504217A1ED7D00233328 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F719CAA2177A390900CAF663 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -82,10 +117,29 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F717504317A1ED7D00233328 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				F717504417A1ED7D00233328 /* Supporting Files */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		F717504417A1ED7D00233328 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F717504517A1ED7D00233328 /* Tests-Info.plist */,
+				F717504617A1ED7D00233328 /* InfoPlist.strings */,
+				F717504C17A1ED7D00233328 /* Tests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		F719CA9C177A390900CAF663 = {
 			isa = PBXGroup;
 			children = (
 				F719CAAE177A390900CAF663 /* RhythmDetection */,
+				F717504317A1ED7D00233328 /* Tests */,
 				F719CAA7177A390900CAF663 /* Frameworks */,
 				F719CAA6177A390900CAF663 /* Products */,
 			);
@@ -95,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				F719CAA5177A390900CAF663 /* RhythmDetection.app */,
+				F717504017A1ED7D00233328 /* Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -103,6 +158,7 @@
 			isa = PBXGroup;
 			children = (
 				F719CAA8177A390900CAF663 /* Cocoa.framework */,
+				F717502B17A1ECF600233328 /* SenTestingKit.framework */,
 				F719CAAA177A390900CAF663 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -144,8 +200,16 @@
 				F701BB221785F64400EB2975 /* RDBufferList.m */,
 				F7702C37179349BD00ABC6B2 /* RDAudioEffect.h */,
 				F7702C38179349BD00ABC6B2 /* RDAudioEffect.m */,
+				F717502217A1E61800233328 /* RDDSPSplitComplex.h */,
+				F717502317A1E61800233328 /* RDDSPSplitComplex.m */,
 				F7175014179D29EC00233328 /* RDFFTProcessor.h */,
 				F7175015179D29EC00233328 /* RDFFTProcessor.m */,
+				F717501917A1D14100233328 /* RDDataSimilarityDetector.h */,
+				F717501A17A1D14100233328 /* RDDataSimilarityDetector.m */,
+				F79A0AA017A411900082E548 /* RDDataSimilarityDetectorTest.m */,
+				F717501C17A1E55B00233328 /* RDRepeatedDataGenerator.h */,
+				F717501D17A1E55B00233328 /* RDRepeatedDataGenerator.m */,
+				F717505117A1EE1C00233328 /* RDRepeatedDataGeneratorTest.m */,
 				F719CABD177A390900CAF663 /* MainMenu.xib */,
 				F719CAAF177A390900CAF663 /* Supporting Files */,
 			);
@@ -167,6 +231,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		F717503F17A1ED7D00233328 /* Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F717504D17A1ED7D00233328 /* Build configuration list for PBXNativeTarget "Tests" */;
+			buildPhases = (
+				F717503B17A1ED7D00233328 /* Sources */,
+				F717503C17A1ED7D00233328 /* Frameworks */,
+				F717503D17A1ED7D00233328 /* Resources */,
+				F717503E17A1ED7D00233328 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tests;
+			productName = Tests;
+			productReference = F717504017A1ED7D00233328 /* Tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		F719CAA4177A390900CAF663 /* RhythmDetection */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F719CAC2177A390900CAF663 /* Build configuration list for PBXNativeTarget "RhythmDetection" */;
@@ -207,11 +289,20 @@
 			projectRoot = "";
 			targets = (
 				F719CAA4177A390900CAF663 /* RhythmDetection */,
+				F717503F17A1ED7D00233328 /* Tests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		F717503D17A1ED7D00233328 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F717504817A1ED7D00233328 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F719CAA3177A390900CAF663 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -224,7 +315,35 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F717503E17A1ED7D00233328 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		F717503B17A1ED7D00233328 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F717505217A1EE1C00233328 /* RDRepeatedDataGeneratorTest.m in Sources */,
+				F717505317A1F1A500233328 /* RDRepeatedDataGenerator.m in Sources */,
+				F79A0AA117A411900082E548 /* RDDataSimilarityDetectorTest.m in Sources */,
+				F79A0AA217A4129A0082E548 /* RDDataSimilarityDetector.m in Sources */,
+				F79A0AA417A412D20082E548 /* RDDSPSplitComplex.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F719CAA1177A390900CAF663 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -241,12 +360,23 @@
 				F79C3C5B1788B8BA00F43D9F /* RDHistoryBuffer.m in Sources */,
 				F7702C39179349BD00ABC6B2 /* RDAudioEffect.m in Sources */,
 				F7175016179D29EC00233328 /* RDFFTProcessor.m in Sources */,
+				F717501B17A1D14100233328 /* RDDataSimilarityDetector.m in Sources */,
+				F717501E17A1E55B00233328 /* RDRepeatedDataGenerator.m in Sources */,
+				F717502417A1E61900233328 /* RDDSPSplitComplex.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		F717504617A1ED7D00233328 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F717504717A1ED7D00233328 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		F719CAB1177A390900CAF663 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -274,6 +404,32 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		F717504E17A1ED7D00233328 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
+				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		F717504F17A1ED7D00233328 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = "\"$(DEVELOPER_LIBRARY_DIR)/Frameworks\"";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Tests/Tests-Prefix.pch";
+				INFOPLIST_FILE = "Tests/Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		F719CAC0177A390900CAF663 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -360,6 +516,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		F717504D17A1ED7D00233328 /* Build configuration list for PBXNativeTarget "Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F717504E17A1ED7D00233328 /* Debug */,
+				F717504F17A1ED7D00233328 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F719CAA0177A390900CAF663 /* Build configuration list for PBXProject "RhythmDetection" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -8,12 +8,13 @@
 
 #import "RDFFTProcessor.h"
 #import <Accelerate/Accelerate.h>
+#import "RDDSPSplitComplex.h"
 
 @interface RDFFTProcessor()
 @property (assign, nonatomic) UInt32 framesCount;
 @property (assign, nonatomic) UInt32 log2N;
 @property (assign, nonatomic) FFTSetup fftSetup;
-@property (assign, nonatomic) DSPSplitComplex dspSplitComplex;
+@property (strong, nonatomic) RDDSPSplitComplex *splitComplex;
 @end
 
 @implementation RDFFTProcessor
@@ -30,10 +31,7 @@
         self.log2N = log2N;
         self.fftSetup = vDSP_create_fftsetup(log2N, kFFTRadix2);
         NSParameterAssert(NULL != self.fftSetup);
-        DSPSplitComplex splitComplex;
-        splitComplex.realp = (float *)calloc(framesCount, sizeof(float));
-        splitComplex.imagp = (float *)calloc(framesCount, sizeof(float));
-        self.dspSplitComplex = splitComplex;
+        self.splitComplex = [[RDDSPSplitComplex alloc] initWithLength:framesCount];
     }
     return self;
 }
@@ -42,13 +40,11 @@
 {
     vDSP_destroy_fftsetup(self.fftSetup);
     self.fftSetup = NULL;
-    free(self.dspSplitComplex.realp);
-    free(self.dspSplitComplex.imagp);
 }
 
 - (void)writeSpectrumEnergyForData:(const float *)inBuffer toBuffer:(float *)outBuffer
 {
-    DSPSplitComplex dspSplitComplex = self.dspSplitComplex;
+    DSPSplitComplex dspSplitComplex = [self.splitComplex dspSplitComplex];
     memcpy(dspSplitComplex.realp, inBuffer, self.framesCount * sizeof(float));
     memset(dspSplitComplex.imagp, 0, self.framesCount * sizeof(float));
     vDSP_fft_zrip(self.fftSetup, &dspSplitComplex, 1, self.log2N, kFFTDirection_Forward);
