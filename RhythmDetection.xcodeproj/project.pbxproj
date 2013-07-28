@@ -38,6 +38,17 @@
 		F7B31B1817A482EE0081E558 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B1117A482EE0081E558 /* Credits.rtf */; };
 		F7B31B1917A482EE0081E558 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B1317A482EE0081E558 /* InfoPlist.strings */; };
 		F7B31B1A17A482EE0081E558 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B1517A482EE0081E558 /* MainMenu.xib */; };
+		F7B31B2217A490150081E558 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7B31B2117A490150081E558 /* UIKit.framework */; };
+		F7B31B2417A490150081E558 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7B31B2317A490150081E558 /* Foundation.framework */; };
+		F7B31B2617A490150081E558 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7B31B2517A490150081E558 /* CoreGraphics.framework */; };
+		F7B31B4A17A528A30081E558 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B31B4317A528A30081E558 /* main.m */; };
+		F7B31B4B17A528A30081E558 /* RDAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B31B4517A528A30081E558 /* RDAppDelegate.m */; };
+		F7B31B4C17A528A30081E558 /* RDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B31B4717A528A30081E558 /* RDViewController.m */; };
+		F7B31B5717A529810081E558 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B4E17A529810081E558 /* Default-568h@2x.png */; };
+		F7B31B5817A529810081E558 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B4F17A529810081E558 /* Default.png */; };
+		F7B31B5917A529810081E558 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B5017A529810081E558 /* Default@2x.png */; };
+		F7B31B6117A529920081E558 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B5D17A529920081E558 /* InfoPlist.strings */; };
+		F7B31B6217A529920081E558 /* RDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B5F17A529920081E558 /* RDViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +101,22 @@
 		F7B31B1417A482EE0081E558 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F7B31B1617A482EE0081E558 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		F7B31B1717A482EE0081E558 /* RhythmDetection-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RhythmDetection-Info.plist"; sourceTree = "<group>"; };
+		F7B31B2017A490150081E558 /* RhythmDetection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RhythmDetection.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7B31B2117A490150081E558 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		F7B31B2317A490150081E558 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		F7B31B2517A490150081E558 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		F7B31B4317A528A30081E558 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		F7B31B4417A528A30081E558 /* RDAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDAppDelegate.h; sourceTree = "<group>"; };
+		F7B31B4517A528A30081E558 /* RDAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDAppDelegate.m; sourceTree = "<group>"; };
+		F7B31B4617A528A30081E558 /* RDViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDViewController.h; sourceTree = "<group>"; };
+		F7B31B4717A528A30081E558 /* RDViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDViewController.m; sourceTree = "<group>"; };
+		F7B31B4917A528A30081E558 /* RhythmDetection-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RhythmDetection-Prefix.pch"; sourceTree = "<group>"; };
+		F7B31B4E17A529810081E558 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F7B31B4F17A529810081E558 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		F7B31B5017A529810081E558 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		F7B31B5617A529810081E558 /* RhythmDetection-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RhythmDetection-Info.plist"; sourceTree = "<group>"; };
+		F7B31B5E17A529920081E558 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F7B31B6017A529920081E558 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RDViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +138,16 @@
 				F719CACE177BB3D400CAF663 /* AudioUnit.framework in Frameworks */,
 				F719CAC9177A3D2F00CAF663 /* AudioToolbox.framework in Frameworks */,
 				F719CAA9177A390900CAF663 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7B31B1D17A490150081E558 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7B31B2217A490150081E558 /* UIKit.framework in Frameworks */,
+				F7B31B2417A490150081E558 /* Foundation.framework in Frameworks */,
+				F7B31B2617A490150081E558 /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,6 +177,7 @@
 			children = (
 				F7B31AD817A46D4A0081E558 /* Signal Processing */,
 				F7B31AEC17A478230081E558 /* Desktop */,
+				F7B31B4217A528A30081E558 /* Mobile */,
 				F717504317A1ED7D00233328 /* Tests */,
 				F719CAA7177A390900CAF663 /* Frameworks */,
 				F719CAA6177A390900CAF663 /* Products */,
@@ -151,6 +189,7 @@
 			children = (
 				F719CAA5177A390900CAF663 /* RhythmDetection.app */,
 				F717504017A1ED7D00233328 /* Tests.octest */,
+				F7B31B2017A490150081E558 /* RhythmDetection.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,6 +199,9 @@
 			children = (
 				F719CAA8177A390900CAF663 /* Cocoa.framework */,
 				F717502B17A1ECF600233328 /* SenTestingKit.framework */,
+				F7B31B2117A490150081E558 /* UIKit.framework */,
+				F7B31B2317A490150081E558 /* Foundation.framework */,
+				F7B31B2517A490150081E558 /* CoreGraphics.framework */,
 				F719CAAA177A390900CAF663 /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -252,6 +294,41 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
+		F7B31B4217A528A30081E558 /* Mobile */ = {
+			isa = PBXGroup;
+			children = (
+				F7B31B4417A528A30081E558 /* RDAppDelegate.h */,
+				F7B31B4517A528A30081E558 /* RDAppDelegate.m */,
+				F7B31B4617A528A30081E558 /* RDViewController.h */,
+				F7B31B4717A528A30081E558 /* RDViewController.m */,
+				F7B31B4817A528A30081E558 /* Resources */,
+				F7B31B4D17A528C10081E558 /* Supporting Files */,
+			);
+			path = Mobile;
+			sourceTree = "<group>";
+		};
+		F7B31B4817A528A30081E558 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F7B31B5F17A529920081E558 /* RDViewController.xib */,
+				F7B31B4E17A529810081E558 /* Default-568h@2x.png */,
+				F7B31B4F17A529810081E558 /* Default.png */,
+				F7B31B5017A529810081E558 /* Default@2x.png */,
+				F7B31B5617A529810081E558 /* RhythmDetection-Info.plist */,
+				F7B31B5D17A529920081E558 /* InfoPlist.strings */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		F7B31B4D17A528C10081E558 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				F7B31B4317A528A30081E558 /* main.m */,
+				F7B31B4917A528A30081E558 /* RhythmDetection-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -290,6 +367,23 @@
 			productReference = F719CAA5177A390900CAF663 /* RhythmDetection.app */;
 			productType = "com.apple.product-type.application";
 		};
+		F7B31B1F17A490150081E558 /* RhythmDetectionMobile */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F7B31B3F17A490150081E558 /* Build configuration list for PBXNativeTarget "RhythmDetectionMobile" */;
+			buildPhases = (
+				F7B31B1C17A490150081E558 /* Sources */,
+				F7B31B1D17A490150081E558 /* Frameworks */,
+				F7B31B1E17A490150081E558 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RhythmDetectionMobile;
+			productName = RhythmDetection;
+			productReference = F7B31B2017A490150081E558 /* RhythmDetection.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -313,6 +407,7 @@
 			projectRoot = "";
 			targets = (
 				F719CAA4177A390900CAF663 /* RhythmDetectionDesktop */,
+				F7B31B1F17A490150081E558 /* RhythmDetectionMobile */,
 				F717503F17A1ED7D00233328 /* Tests */,
 			);
 		};
@@ -334,6 +429,18 @@
 				F7B31B1817A482EE0081E558 /* Credits.rtf in Resources */,
 				F7B31B1917A482EE0081E558 /* InfoPlist.strings in Resources */,
 				F7B31B1A17A482EE0081E558 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F7B31B1E17A490150081E558 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7B31B5717A529810081E558 /* Default-568h@2x.png in Resources */,
+				F7B31B5817A529810081E558 /* Default.png in Resources */,
+				F7B31B5917A529810081E558 /* Default@2x.png in Resources */,
+				F7B31B6117A529920081E558 /* InfoPlist.strings in Resources */,
+				F7B31B6217A529920081E558 /* RDViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -390,6 +497,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F7B31B1C17A490150081E558 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F7B31B4A17A528A30081E558 /* main.m in Sources */,
+				F7B31B4B17A528A30081E558 /* RDAppDelegate.m in Sources */,
+				F7B31B4C17A528A30081E558 /* RDViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -423,6 +540,22 @@
 				F7B31B1617A482EE0081E558 /* en */,
 			);
 			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		F7B31B5D17A529920081E558 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7B31B5E17A529920081E558 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		F7B31B5F17A529920081E558 /* RDViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F7B31B6017A529920081E558 /* en */,
+			);
+			name = RDViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -537,6 +670,44 @@
 			};
 			name = Release;
 		};
+		F7B31B4017A490150081E558 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Mobile/RhythmDetection-Prefix.pch";
+				INFOPLIST_FILE = "Mobile/Resources/RhythmDetection-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				PRODUCT_NAME = RhythmDetection;
+				SDKROOT = iphoneos;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		F7B31B4117A490150081E558 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Mobile/RhythmDetection-Prefix.pch";
+				INFOPLIST_FILE = "Mobile/Resources/RhythmDetection-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = RhythmDetection;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -566,6 +737,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		F7B31B3F17A490150081E558 /* Build configuration list for PBXNativeTarget "RhythmDetectionMobile" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F7B31B4017A490150081E558 /* Debug */,
+				F7B31B4117A490150081E558 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
