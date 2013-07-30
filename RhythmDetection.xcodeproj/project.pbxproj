@@ -49,6 +49,10 @@
 		F7B31B5917A529810081E558 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B5017A529810081E558 /* Default@2x.png */; };
 		F7B31B6117A529920081E558 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B5D17A529920081E558 /* InfoPlist.strings */; };
 		F7B31B6217A529920081E558 /* RDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = F7B31B5F17A529920081E558 /* RDViewController.xib */; };
+		F7C1CF8017A568550082CE2C /* RDRhythmView.m in Sources */ = {isa = PBXBuildFile; fileRef = F7C1CF7F17A568550082CE2C /* RDRhythmView.m */; };
+		F7C1CF8117A5D8BE0082CE2C /* RDDataSimilarityDetector.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B31AE117A46E5B0081E558 /* RDDataSimilarityDetector.m */; };
+		F7C1CF8217A5D9110082CE2C /* RDDSPSplitComplex.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B31ADA17A46D4A0081E558 /* RDDSPSplitComplex.m */; };
+		F7C1CF8417A5D9280082CE2C /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7C1CF8317A5D9280082CE2C /* Accelerate.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -117,6 +121,9 @@
 		F7B31B5617A529810081E558 /* RhythmDetection-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "RhythmDetection-Info.plist"; sourceTree = "<group>"; };
 		F7B31B5E17A529920081E558 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F7B31B6017A529920081E558 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/RDViewController.xib; sourceTree = "<group>"; };
+		F7C1CF7E17A568550082CE2C /* RDRhythmView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDRhythmView.h; sourceTree = "<group>"; };
+		F7C1CF7F17A568550082CE2C /* RDRhythmView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDRhythmView.m; sourceTree = "<group>"; };
+		F7C1CF8317A5D9280082CE2C /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +152,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F7C1CF8417A5D9280082CE2C /* Accelerate.framework in Frameworks */,
 				F7B31B2217A490150081E558 /* UIKit.framework in Frameworks */,
 				F7B31B2417A490150081E558 /* Foundation.framework in Frameworks */,
 				F7B31B2617A490150081E558 /* CoreGraphics.framework in Frameworks */,
@@ -175,6 +183,7 @@
 		F719CA9C177A390900CAF663 = {
 			isa = PBXGroup;
 			children = (
+				F7C1CF8317A5D9280082CE2C /* Accelerate.framework */,
 				F7B31AD817A46D4A0081E558 /* Signal Processing */,
 				F7B31AEC17A478230081E558 /* Desktop */,
 				F7B31B4217A528A30081E558 /* Mobile */,
@@ -301,6 +310,8 @@
 				F7B31B4517A528A30081E558 /* RDAppDelegate.m */,
 				F7B31B4617A528A30081E558 /* RDViewController.h */,
 				F7B31B4717A528A30081E558 /* RDViewController.m */,
+				F7C1CF7E17A568550082CE2C /* RDRhythmView.h */,
+				F7C1CF7F17A568550082CE2C /* RDRhythmView.m */,
 				F7B31B4817A528A30081E558 /* Resources */,
 				F7B31B4D17A528C10081E558 /* Supporting Files */,
 			);
@@ -504,6 +515,9 @@
 				F7B31B4A17A528A30081E558 /* main.m in Sources */,
 				F7B31B4B17A528A30081E558 /* RDAppDelegate.m in Sources */,
 				F7B31B4C17A528A30081E558 /* RDViewController.m in Sources */,
+				F7C1CF8017A568550082CE2C /* RDRhythmView.m in Sources */,
+				F7C1CF8117A5D8BE0082CE2C /* RDDataSimilarityDetector.m in Sources */,
+				F7C1CF8217A5D9110082CE2C /* RDDSPSplitComplex.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -745,6 +759,7 @@
 				F7B31B4117A490150081E558 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

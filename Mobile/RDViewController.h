@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RDRhythmView.h"
 
-@interface RDViewController : UIViewController
+@interface RDViewController : UIViewController<RDRhythmViewDelegate>
 
 @end

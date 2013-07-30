@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <vecLib/vDSP.h>
+#import <Accelerate/Accelerate.h>
 
 // Objective-C equivalent of DSPSplitComplex.  Responsible for memory management.
 @interface RDDSPSplitComplex : NSObject
