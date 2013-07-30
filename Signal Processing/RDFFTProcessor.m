@@ -48,7 +48,8 @@
     memcpy(dspSplitComplex.realp, inBuffer, self.framesCount * sizeof(float));
     memset(dspSplitComplex.imagp, 0, self.framesCount * sizeof(float));
     vDSP_fft_zrip(self.fftSetup, &dspSplitComplex, 1, self.log2N, kFFTDirection_Forward);
-    vDSP_zvmags(&dspSplitComplex, 1, outBuffer, 1, self.framesCount);
+    memset(outBuffer, 0, self.framesCount * sizeof(float));
+    vDSP_zvmags(&dspSplitComplex, 1, outBuffer, 1, self.framesCount / 2);
 }
 
 @end

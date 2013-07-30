@@ -11,5 +11,6 @@
 @interface RDFFTProcessor : NSObject
 - (id)initWithFramesCount:(UInt32)framesCount;
 
+//TODO(vsapsai): use outBuffer two times smaller than inBuffer
 - (void)writeSpectrumEnergyForData:(const float *)inBuffer toBuffer:(float *)outBuffer;
 @end

@@ -37,8 +37,9 @@
         NSParameterAssert(NULL != self.fftSetup);
         self.splitComplex1 = [[RDDSPSplitComplex alloc] initWithLength:length];
         self.splitComplex2 = [[RDDSPSplitComplex alloc] initWithLength:length];
-        self.result = [[RDDSPSplitComplex alloc] initWithLength:length];
-        self.resultBuffer = [[NSMutableData alloc] initWithLength:(length * sizeof(float))];
+        NSUInteger fftLength = (length / 2);
+        self.result = [[RDDSPSplitComplex alloc] initWithLength:fftLength];
+        self.resultBuffer = [[NSMutableData alloc] initWithLength:(fftLength * sizeof(float))];
     }
     return self;
 }
@@ -63,13 +64,14 @@
     DSPSplitComplex dspSplitComplex2 = [self.splitComplex2 dspSplitComplex];
     vDSP_fft_zrip(self.fftSetup, &dspSplitComplex2, 1, self.log2N, kFFTDirection_Forward);
 
+    NSUInteger fftLength = (self.length / 2);
     DSPSplitComplex resultDSPSplitComplex = [self.result dspSplitComplex];
-    vDSP_zvmul(&dspSplitComplex1, 1, &dspSplitComplex2, 1, &resultDSPSplitComplex, 1, self.length, 1);
+    vDSP_zvmul(&dspSplitComplex1, 1, &dspSplitComplex2, 1, &resultDSPSplitComplex, 1, fftLength, 1);
 
     float *magnitudes = [self.resultBuffer mutableBytes];
-    vDSP_zvmags(&resultDSPSplitComplex, 1, magnitudes, 1, self.length);
+    vDSP_zvmags(&resultDSPSplitComplex, 1, magnitudes, 1, fftLength);
     float magnitudeSum = 0.0;
-    vDSP_sve(magnitudes, 1, &magnitudeSum, self.length);
+    vDSP_sve(magnitudes, 1, &magnitudeSum, fftLength);
     
     return magnitudeSum;
 }
