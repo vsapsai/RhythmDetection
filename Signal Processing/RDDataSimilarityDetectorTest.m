@@ -60,7 +60,7 @@ static const NSUInteger kLength = 32;
     STAssertTrue(similarity1 > similarity2, nil);
 }
 
-- (void)testSimilarityIsNotPredictableAsLinear
+- (void)testSimilarityIsKindaLinear
 {
     NSData *referenceData = [self dataWithPattern:3, 1.0, 0.0, 0.0];
     NSData *dataPause1 = [self dataWithPattern:2, 1.0, 0.0];
@@ -70,7 +70,7 @@ static const NSUInteger kLength = 32;
     float similarity3 = [self.similarityDetector similarityMeasureBetweenData:referenceData andData:dataPause3];
     float similarity4 = [self.similarityDetector similarityMeasureBetweenData:referenceData andData:dataPause4];
     STAssertTrue(similarity1 > similarity4, nil);
-    STAssertTrue(similarity3 < similarity4, @"If similarity was linear, than will similarity4 > similarity4.  But it isn't so");
+    STAssertTrue(similarity3 > similarity4, nil);
 }
 
 #pragma mark - Helpers

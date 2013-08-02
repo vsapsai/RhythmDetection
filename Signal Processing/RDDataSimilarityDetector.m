@@ -11,7 +11,7 @@
 #import "RDDSPSplitComplex.h"
 
 @interface RDDataSimilarityDetector()
-@property (assign, nonatomic) vDSP_Length length;
+@property (assign, nonatomic) vDSP_Length fftLength;
 @property (assign, nonatomic) vDSP_Length log2N;
 @property (assign, nonatomic) FFTSetup fftSetup;
 
@@ -29,15 +29,15 @@
     self = [super init];
     if (nil != self)
     {
-        self.length = length;
         vDSP_Length log2N = (vDSP_Length)ceil(log2(length));
         NSAssert(length == (1 << log2N), @"Support only power of 2 length");
-        self.log2N = log2N;
         self.fftSetup = vDSP_create_fftsetup(log2N, kFFTRadix2);
         NSParameterAssert(NULL != self.fftSetup);
-        self.splitComplex1 = [[RDDSPSplitComplex alloc] initWithLength:length];
-        self.splitComplex2 = [[RDDSPSplitComplex alloc] initWithLength:length];
+        self.log2N = log2N;
         NSUInteger fftLength = (length / 2);
+        self.fftLength = fftLength;
+        self.splitComplex1 = [[RDDSPSplitComplex alloc] initWithLength:fftLength];
+        self.splitComplex2 = [[RDDSPSplitComplex alloc] initWithLength:fftLength];
         self.result = [[RDDSPSplitComplex alloc] initWithLength:fftLength];
         self.resultBuffer = [[NSMutableData alloc] initWithLength:(fftLength * sizeof(float))];
     }
@@ -52,19 +52,27 @@
 
 - (float)similarityMeasureBetweenData:(NSData *)data1 andData:(NSData *)data2
 {
-    NSParameterAssert([data1 length] == (self.length * sizeof(float)));
-    NSParameterAssert([data2 length] == (self.length * sizeof(float)));
-    [self.splitComplex1 copyAsRealData:data1];
-    [self.splitComplex1 zeroImaginaryData];
+    NSParameterAssert([data1 length] == (2 * self.fftLength * sizeof(float)));
+    NSParameterAssert([data2 length] == (2 * self.fftLength * sizeof(float)));
+    NSUInteger fftLength = self.fftLength;
     DSPSplitComplex dspSplitComplex1 = [self.splitComplex1 dspSplitComplex];
+    vDSP_ctoz((const DSPComplex *)[data1 bytes], 2, &dspSplitComplex1, 1, fftLength);
     vDSP_fft_zrip(self.fftSetup, &dspSplitComplex1, 1, self.log2N, kFFTDirection_Forward);
 
-    [self.splitComplex2 copyAsRealData:data2];
-    [self.splitComplex2 zeroImaginaryData];
     DSPSplitComplex dspSplitComplex2 = [self.splitComplex2 dspSplitComplex];
+    vDSP_ctoz((const DSPComplex *)[data2 bytes], 2, &dspSplitComplex2, 1, fftLength);
     vDSP_fft_zrip(self.fftSetup, &dspSplitComplex2, 1, self.log2N, kFFTDirection_Forward);
 
-    NSUInteger fftLength = (self.length / 2);
+    // For explanation about realp[0], imagp[0] see Data packing for real
+    // one-dimensional FFTs.
+    float realPartConvolution[] = {dspSplitComplex1.realp[0] * dspSplitComplex2.realp[0],
+        dspSplitComplex1.imagp[0] * dspSplitComplex2.imagp[0]};
+    float realPartMagnitudeSum = realPartConvolution[0] * realPartConvolution[0] + realPartConvolution[1] * realPartConvolution[1];
+    dspSplitComplex1.imagp[0] = 0.0;
+    dspSplitComplex1.realp[0] = 0.0;
+    dspSplitComplex2.imagp[0] = 0.0;
+    dspSplitComplex2.realp[0] = 0.0;
+
     DSPSplitComplex resultDSPSplitComplex = [self.result dspSplitComplex];
     vDSP_zvmul(&dspSplitComplex1, 1, &dspSplitComplex2, 1, &resultDSPSplitComplex, 1, fftLength, 1);
 
@@ -73,7 +81,7 @@
     float magnitudeSum = 0.0;
     vDSP_sve(magnitudes, 1, &magnitudeSum, fftLength);
     
-    return magnitudeSum;
+    return magnitudeSum + realPartMagnitudeSum;
 }
 
 @end

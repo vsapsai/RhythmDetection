@@ -31,7 +31,7 @@
         self.log2N = log2N;
         self.fftSetup = vDSP_create_fftsetup(log2N, kFFTRadix2);
         NSParameterAssert(NULL != self.fftSetup);
-        self.splitComplex = [[RDDSPSplitComplex alloc] initWithLength:framesCount];
+        self.splitComplex = [[RDDSPSplitComplex alloc] initWithLength:(framesCount / 2)];
     }
     return self;
 }
@@ -44,12 +44,14 @@
 
 - (void)writeSpectrumEnergyForData:(const float *)inBuffer toBuffer:(float *)outBuffer
 {
+    NSUInteger fftLength = (self.framesCount / 2);
     DSPSplitComplex dspSplitComplex = [self.splitComplex dspSplitComplex];
-    memcpy(dspSplitComplex.realp, inBuffer, self.framesCount * sizeof(float));
-    memset(dspSplitComplex.imagp, 0, self.framesCount * sizeof(float));
+    vDSP_ctoz((const DSPComplex *)inBuffer, 2, &dspSplitComplex, 1, fftLength);
     vDSP_fft_zrip(self.fftSetup, &dspSplitComplex, 1, self.log2N, kFFTDirection_Forward);
     memset(outBuffer, 0, self.framesCount * sizeof(float));
-    vDSP_zvmags(&dspSplitComplex, 1, outBuffer, 1, self.framesCount / 2);
+    outBuffer[fftLength] = dspSplitComplex.imagp[0] * dspSplitComplex.imagp[0];
+    dspSplitComplex.imagp[0] = 0.0;
+    vDSP_zvmags(&dspSplitComplex, 1, outBuffer, 1, fftLength);
 }
 
 @end
