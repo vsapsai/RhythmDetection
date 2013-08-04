@@ -14,6 +14,7 @@
 		F719CAA9177A390900CAF663 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CAA8177A390900CAF663 /* Cocoa.framework */; };
 		F719CAC9177A3D2F00CAF663 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CAC8177A3D2F00CAF663 /* AudioToolbox.framework */; };
 		F719CACE177BB3D400CAF663 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F719CACD177BB3D400CAF663 /* AudioUnit.framework */; };
+		F75F4A0A17AE9243000ACB30 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F75F4A0917AE9243000ACB30 /* QuartzCore.framework */; };
 		F79A0AA317A412BD0082E548 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F7175017179DEDCC00233328 /* Accelerate.framework */; };
 		F7B31ADD17A46D4A0081E558 /* RDDSPSplitComplex.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B31ADA17A46D4A0081E558 /* RDDSPSplitComplex.m */; };
 		F7B31ADE17A46D4A0081E558 /* RDFFTProcessor.m in Sources */ = {isa = PBXBuildFile; fileRef = F7B31ADC17A46D4A0081E558 /* RDFFTProcessor.m */; };
@@ -69,6 +70,7 @@
 		F719CAAD177A390900CAF663 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F719CAC8177A3D2F00CAF663 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F719CACD177BB3D400CAF663 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
+		F75F4A0917AE9243000ACB30 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
 		F7B31AD917A46D4A0081E558 /* RDDSPSplitComplex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDDSPSplitComplex.h; sourceTree = "<group>"; };
 		F7B31ADA17A46D4A0081E558 /* RDDSPSplitComplex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RDDSPSplitComplex.m; sourceTree = "<group>"; };
 		F7B31ADB17A46D4A0081E558 /* RDFFTProcessor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RDFFTProcessor.h; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F75F4A0A17AE9243000ACB30 /* QuartzCore.framework in Frameworks */,
 				F7C1CF8417A5D9280082CE2C /* Accelerate.framework in Frameworks */,
 				F7B31B2217A490150081E558 /* UIKit.framework in Frameworks */,
 				F7B31B2417A490150081E558 /* Foundation.framework in Frameworks */,
@@ -183,7 +186,6 @@
 		F719CA9C177A390900CAF663 = {
 			isa = PBXGroup;
 			children = (
-				F7C1CF8317A5D9280082CE2C /* Accelerate.framework */,
 				F7B31AD817A46D4A0081E558 /* Signal Processing */,
 				F7B31AEC17A478230081E558 /* Desktop */,
 				F7B31B4217A528A30081E558 /* Mobile */,
@@ -208,6 +210,8 @@
 			children = (
 				F719CAA8177A390900CAF663 /* Cocoa.framework */,
 				F717502B17A1ECF600233328 /* SenTestingKit.framework */,
+				F7C1CF8317A5D9280082CE2C /* Accelerate.framework */,
+				F75F4A0917AE9243000ACB30 /* QuartzCore.framework */,
 				F7B31B2117A490150081E558 /* UIKit.framework */,
 				F7B31B2317A490150081E558 /* Foundation.framework */,
 				F7B31B2517A490150081E558 /* CoreGraphics.framework */,
@@ -687,6 +691,7 @@
 		F7B31B4017A490150081E558 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -695,7 +700,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mobile/RhythmDetection-Prefix.pch";
 				INFOPLIST_FILE = "Mobile/Resources/RhythmDetection-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = RhythmDetection;
 				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
@@ -705,6 +710,7 @@
 		F7B31B4117A490150081E558 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -713,7 +719,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Mobile/RhythmDetection-Prefix.pch";
 				INFOPLIST_FILE = "Mobile/Resources/RhythmDetection-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PRODUCT_NAME = RhythmDetection;
 				SDKROOT = iphoneos;

@@ -19,7 +19,16 @@ static const NSUInteger kSamplesCount = 4096;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [(RDRhythmView *)self.view setTouchesCount:8];
+    //self.view.backgroundColor = self.rhythmView.backgroundColor;
+    self.rhythmView.transform = [self transformForInterfaceOrientation:UIInterfaceOrientationPortrait];
+    self.rhythmView.bounds = [self boundsForInterfaceOrientation:UIInterfaceOrientationPortrait];
+    self.rhythmView.touchesCount = 3;
+}
+
+- (void)viewDidUnload
+{
+    [self setRhythmView:nil];
+    [super viewDidUnload];
 }
 
 - (void)didReceiveMemoryWarning
@@ -28,11 +37,66 @@ static const NSUInteger kSamplesCount = 4096;
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Rotation
+
+- (CGAffineTransform)transformForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    CGFloat angle = 0.0;
+    switch (interfaceOrientation)
+    {
+        case UIInterfaceOrientationPortrait:
+            angle = -M_PI_2;
+            break;
+
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            angle = 0.0;
+            break;
+
+        default:
+            break;
+    }
+    CGAffineTransform transform = CGAffineTransformMakeScale(1.0, -1.0);
+    transform = CGAffineTransformRotate(transform, angle);
+    return transform;
+}
+
+- (CGRect)boundsForInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+    CGRect bounds = self.view.bounds;
+    if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
+    {
+        CGFloat temp = bounds.size.width;
+        bounds.size.width = bounds.size.height;
+        bounds.size.height = temp;
+    }
+    return bounds;
+}
+
+//- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    self.rhythmView.bounds = [self boundsForInterfaceOrientation:toInterfaceOrientation];
+    BOOL shouldRotateRhythmView = (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    if (shouldRotateRhythmView)
+    {
+        self.rhythmView.transform = [self transformForInterfaceOrientation:toInterfaceOrientation];
+    }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    // Redraw part of view which earlier was covered by status bar.
+    [self.rhythmView setNeedsDisplay];
+}
+
 #pragma mark - RDRhythmViewDelegate
 
 - (void)rhythmView:(RDRhythmView *)view didReceiveTouchesAtTimes:(NSArray *)touchTimes
 {
-    NSLog(@"average time interval = %f", [self averageTimeInterval:touchTimes]);
+    NSTimeInterval averageTimeInterval = [self averageTimeInterval:touchTimes];
+    [self.rhythmView startAnimationWithPeriod:(averageTimeInterval * 8) startTime:touchTimes[0]];
+    NSLog(@"average time interval = %f (%d BPM)", averageTimeInterval, (int)(60.0 / averageTimeInterval));
     [self detectRhythmFromTouchSignal:touchTimes];
 }
 
@@ -54,6 +118,9 @@ static const NSUInteger kSamplesCount = 4096;
     return total / ([times count] - 1);
 }
 
+// Possible values:
+// time interval = 0.155009 (387 BPM)
+// time interval = 0.675245 (88 BPM)
 - (void)detectRhythmFromTouchSignal:(NSArray *)touchTimes
 {
     NSData *referenceData = [self generateTouchSignal:touchTimes];
@@ -63,7 +130,7 @@ static const NSUInteger kSamplesCount = 4096;
     {
         NSData *periodicSignal = [self generatePeriodicSignalAtInterval:signalInterval samplingRate:samplingRate];
         float similarity = [similarityDetector similarityMeasureBetweenData:referenceData andData:periodicSignal];
-        NSLog(@"similarity at interval %f = %f", signalInterval, similarity);
+        NSLog(@"similarity at interval %f (%d BPM) = %f", signalInterval, (int)(60.0 / signalInterval), similarity);
     }
     {
         NSData *periodicSignal = [self generatePeriodicSignalAtInterval:[self averageTimeInterval:touchTimes] samplingRate:samplingRate];

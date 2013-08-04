@@ -10,5 +10,5 @@
 #import "RDRhythmView.h"
 
 @interface RDViewController : UIViewController<RDRhythmViewDelegate>
-
+@property (strong, nonatomic) IBOutlet RDRhythmView *rhythmView;
 @end

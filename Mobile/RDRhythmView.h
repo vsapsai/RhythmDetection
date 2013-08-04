@@ -13,6 +13,9 @@
 @interface RDRhythmView : UIView
 @property (assign, nonatomic) NSUInteger touchesCount;
 @property (weak, nonatomic) IBOutlet id<RDRhythmViewDelegate> delegate;
+
+- (void)startAnimationWithPeriod:(NSTimeInterval)animationPeriod startTime:(NSDate *)startTime;
+- (void)stopAnimation;
 @end
 
 @protocol RDRhythmViewDelegate <NSObject>
