@@ -10,7 +10,7 @@ The project is currently cancelled.  My interest in salsa and bachata has waned 
 ## See Also
 I've used the following resources during development:
 
-* http://archive.gamedev.net/archive/reference/programming/features/beatdetection/index.html
-* https://www.clear.rice.edu/elec301/Projects01/beat_sync/beatalgo.html
-* http://werner.yellowcouch.org/Papers/bpm04/
-* http://werner.yellowcouch.org/bpmlive/
+* [Beat Detection Algorithms. gamedev.net](http://archive.gamedev.net/archive/reference/programming/features/beatdetection/index.html)
+* [Beat Detection Algorithm](https://www.clear.rice.edu/elec301/Projects01/beat_sync/beatalgo.html)
+* [BPM Measurement of Digital Audio by Means of Beat Graphs & Ray Shooting](http://werner.yellowcouch.org/Papers/bpm04/)
+* [BPM Live - Realtime BPM Measurement](http://werner.yellowcouch.org/bpmlive/)
